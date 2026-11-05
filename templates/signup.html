@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-{% load static %}
 
 {% block section %}
 
@@ -21,7 +20,7 @@
   <!-- 회원가입 폼 -->
   <section class="auth-container signup-container">
     <form class="auth-form" method="POST">
-      {% csrf_token %}
+    
       <div class="auth-input-list">
         <!-- 아이디 -->
         <div class="auth-input-group">
