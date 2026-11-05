@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-
 {% block section %}
 
 <main class="auth-page">
@@ -20,8 +19,9 @@
   <!-- 회원가입 폼 -->
   <section class="auth-container signup-container">
     <form class="auth-form" action="/signup_post" method="POST">
-    
+
       <div class="auth-input-list">
+
         <!-- 아이디 -->
         <div class="auth-input-group">
           <label for="user-id" class="auth-label">아이디</label>
@@ -29,7 +29,7 @@
             <input
               type="text"
               id="user-id"
-              name="username"
+              name="id"
               class="auth-input"
               required
             >
@@ -43,11 +43,10 @@
         <!-- 비밀번호 -->
         <div class="auth-input-group">
           <label for="user-password" class="auth-label">비밀번호</label>
-
           <input
             type="password"
             id="user-password"
-            name="password"
+            name="pw"
             class="auth-input"
             required
           >
@@ -56,7 +55,6 @@
         <!-- 비밀번호 확인 -->
         <div class="auth-input-group">
           <label for="password-confirm" class="auth-label">비밀번호 확인</label>
-
           <input
             type="password"
             id="password-confirm"
@@ -69,7 +67,6 @@
         <!-- 이메일 -->
         <div class="auth-input-group">
           <label for="email" class="auth-label">이메일 주소</label>
-
           <input
             type="email"
             id="email"
@@ -82,7 +79,6 @@
         <!-- 전화번호 -->
         <div class="auth-input-group">
           <label for="phone" class="auth-label">전화번호</label>
-
           <input
             type="tel"
             id="phone"
@@ -106,11 +102,10 @@
       </div>
 
     </form>
-
   </section>
 
 </main>
 
 {% include 'common/footer.html' %}
 
-{% endblock section %}
+{% endblock %}
