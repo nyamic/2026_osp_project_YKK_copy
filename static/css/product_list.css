@@ -3,15 +3,17 @@
 /* 상품 목록 페이지 */
 .product-list-page {
   --product-bg: #fff9e8;
-  --product-yellow: #ffea88;
-  --product-coral: #ff5054;
-  --product-text: #38251e;
+  --product-yellow: #ffe98a;
+  --product-coral: #ff514f;
+  --product-text: #38251f;
+  --product-white: #ffffff;
 
   width: 100%;
   margin: 0;
   background-color: var(--product-bg);
   color: var(--product-text);
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -35,7 +37,7 @@
   margin: 0 auto;
 }
 
-/* 상품 카드: PC에서 3열 */
+/* PC: 상품 3열 */
 .product-list-page .product-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -58,7 +60,7 @@
   width: 100%;
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--product-white);
 }
 
 .product-list-page .product-image img {
@@ -75,9 +77,9 @@
 
 .product-list-page .product-name {
   overflow: hidden;
-  color: #17120e;
+  color: var(--product-text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.5;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -85,6 +87,7 @@
 
 .product-list-page .product-price {
   margin-top: 8px;
+  color: var(--product-text);
   font-size: 20px;
   font-weight: 400;
   line-height: 1.4;
@@ -100,7 +103,7 @@
   margin: 52px 0 0;
   padding: 4px;
   overflow: visible;
-  background: transparent;
+  background-color: var(--product-bg);
 }
 
 .product-list-page .product-pagination button {
@@ -114,22 +117,20 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: transparent;
+  background-color: var(--product-bg);
   color: var(--product-text);
   font: inherit;
   font-size: 16px;
   cursor: pointer;
 }
 
-/* 이전 / 다음 버튼 */
 .product-list-page .product-pagination .pagination-button {
   background-color: var(--product-yellow);
 }
 
-/* 현재 페이지 */
 .product-list-page .product-pagination .pagination-active {
   background-color: var(--product-coral);
-  color: #fff;
+  color: var(--product-white);
 }
 
 /* 키보드 선택 표시 */
@@ -151,7 +152,7 @@
   }
 }
 
-/* 태블릿 / 모바일: 2열 */
+/* 태블릿 / 모바일: 상품 2열 */
 @media (max-width: 767px) {
   .product-list-page .product-list-section {
     padding: 48px 20px;
@@ -192,15 +193,4 @@
     width: 38px;
     height: 38px;
   }
-
-
-}
-  /* 상품 목록 글꼴 */
-.product-list-page {
-  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
-}
-
-.product-list-page .product-name,
-.product-list-page .product-price {
-  font-weight: 400;
 }

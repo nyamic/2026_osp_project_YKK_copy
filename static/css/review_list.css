@@ -3,18 +3,18 @@
 /* 리뷰 목록 페이지 */
 .review-list-page {
   --review-bg: #fff9e8;
-  --review-yellow: #ffea88;
-  --review-coral: #ff5054;
-  --review-text: #38251e;
-  --review-muted: #827d72;
-  --review-star: #ffd13b;
-  --review-star-empty: #fff0c3;
+  --review-yellow: #ffe98a;
+  --review-coral: #ff514f;
+  --review-text: #38251f;
+  --review-white: #ffffff;
+  --review-peach: #ffd9c7;
 
   width: 100%;
   margin: 0;
   background-color: var(--review-bg);
   color: var(--review-text);
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -38,7 +38,7 @@
   margin: 0 auto;
 }
 
-/* 리뷰 카드: PC에서 3열 */
+/* PC: 리뷰 3열 */
 .review-list-page .review-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -50,7 +50,7 @@
   min-width: 0;
 }
 
-/* 카드 내부: 왼쪽 이미지 / 오른쪽 리뷰 정보 */
+/* 왼쪽 이미지 / 오른쪽 리뷰 정보 */
 .review-list-page .review-link {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -65,7 +65,7 @@
   width: 100%;
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--review-white);
 }
 
 .review-list-page .review-image img {
@@ -81,12 +81,12 @@
   padding-top: 6px;
 }
 
-/* 제목은 한 줄까지만 표시 */
+/* 제목은 한 줄까지 표시 */
 .review-list-page .review-title {
   overflow: hidden;
-  color: #17120e;
+  color: var(--review-text);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.5;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -105,26 +105,26 @@
 }
 
 .review-list-page .star-filled {
-  color: var(--review-star);
+  color: var(--review-yellow);
 }
 
 .review-list-page .star-empty {
-  color: var(--review-star-empty);
+  color: var(--review-peach);
 }
 
-/* 본문은 세 줄까지만 표시 */
+/* 본문은 세 줄까지 표시 */
 .review-list-page .review-content {
   display: -webkit-box;
   overflow: hidden;
   max-height: 4.5em;
-  color: var(--review-muted);
+  color: var(--review-text);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.5;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-   line-clamp: 3;
+  line-clamp: 3;
 }
 
 /* 페이지네이션 */
@@ -137,7 +137,7 @@
   margin: 64px 0 0;
   padding: 4px;
   overflow: visible;
-  background: transparent;
+  background-color: var(--review-bg);
 }
 
 .review-list-page .review-pagination button {
@@ -151,22 +151,20 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: transparent;
+  background-color: var(--review-bg);
   color: var(--review-text);
   font: inherit;
   font-size: 16px;
   cursor: pointer;
 }
 
-/* 이전 / 다음 버튼 */
 .review-list-page .review-pagination .pagination-button {
   background-color: var(--review-yellow);
 }
 
-/* 현재 페이지 */
 .review-list-page .review-pagination .pagination-active {
   background-color: var(--review-coral);
-  color: #fff;
+  color: var(--review-white);
 }
 
 /* 키보드 선택 표시 */
@@ -188,7 +186,7 @@
   }
 }
 
-/* 태블릿: 2열 */
+/* 태블릿: 리뷰 2열 */
 @media (max-width: 1199px) {
   .review-list-page .review-list-section {
     padding: 80px 32px;
@@ -200,7 +198,7 @@
   }
 }
 
-/* 모바일: 1열 */
+/* 모바일: 리뷰 1열 */
 @media (max-width: 767px) {
   .review-list-page .review-list-section {
     padding: 48px 20px;
@@ -258,15 +256,4 @@
     width: 38px;
     height: 38px;
   }
-
-
-}
-  /* 리뷰 목록 글꼴 */
-.review-list-page {
-  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
-}
-
-.review-list-page .review-title,
-.review-list-page .review-content {
-  font-weight: 400;
 }
