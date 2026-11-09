@@ -1,4 +1,3 @@
-/* 메뉴·버튼: Sunflower / 본문: JejuGothic / 가격: Annapurna SIL */
 @import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&family=Annapurna+SIL&display=swap");
 @import url("https://fonts.googleapis.com/earlyaccess/jejugothic.css");
 
@@ -39,7 +38,6 @@
   padding: 78px 0;
 }
 
-/* 노란 카드: 왼쪽 이미지 / 오른쪽 입력 */
 .product-register-page .product-register-form {
   display: grid;
   grid-template-columns: 396px minmax(0, 1fr);
@@ -68,7 +66,6 @@
   height: 100%;
 }
 
-/* 실제 파일 입력은 숨기고 label을 버튼처럼 표시 */
 .product-register-page .image-upload input[type="file"] {
   position: absolute;
   width: 1px;
@@ -105,7 +102,6 @@
   background-color: var(--product-white);
 }
 
-/* 사진을 고른 뒤: 버튼 대신 사진 전체를 눌러 다시 선택 */
 .product-register-page .image-upload:has(.image-upload__preview[src]:not([src=""])) .image-upload__label {
   position: absolute;
   inset: 0;
@@ -117,7 +113,6 @@
   font-size: 0;
 }
 
-/* 미리보기 이미지가 없으면 숨김 */
 .product-register-page .image-upload__preview:not([src]),
 .product-register-page .image-upload__preview[src=""] {
   display: none;
@@ -144,7 +139,6 @@
   gap: 12px;
 }
 
-/* 왼쪽 열 라벨: 한 줄, 가운데 정렬 */
 .product-register-page .form-group > label {
   display: flex;
   flex: 0 0 62px;
@@ -158,7 +152,6 @@
   white-space: nowrap;
 }
 
-/* 오른쪽 열 라벨: 좁은 폭, "제품 설명"은 두 줄 */
 .product-register-page .form-column--right .form-group {
   gap: 14px;
 }
@@ -192,7 +185,6 @@
   opacity: 1;
 }
 
-/* 상품 이름 칸 */
 .product-register-page #product-name {
   width: 140px;
   height: 80px;
@@ -200,7 +192,7 @@
   overflow-y: auto;
 }
 
-/* 가격: ₩ 기호 항상 표시, 숫자는 세 자리마다 쉼표 (register_form.js) */
+/* 가격 */
 .product-register-page #product-price {
   padding-left: 30px;
   font-family: var(--product-font-price);
@@ -211,7 +203,6 @@
   color: transparent;
 }
 
-/* type="number"일 때 숫자 화살표 숨김 */
 .product-register-page input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
@@ -225,7 +216,7 @@
 
 .product-register-page .form-group:has(> #product-price) {
   position: relative;
-  --price-symbol-left: 86px; /* 라벨 62 + 간격 12 + 안쪽 여백 12 */
+  --price-symbol-left: 86px;
 }
 
 .product-register-page .form-group:has(> #product-price)::after {
@@ -240,12 +231,11 @@
   pointer-events: none;
 }
 
-/* 비어 있을 때는 회색 ₩ */
 .product-register-page .form-group:has(> #product-price:placeholder-shown)::after {
   color: var(--product-placeholder);
 }
 
-/* 상태: 회색 ▼ 화살표 */
+/* 상태 */
 .product-register-page select {
   padding-right: 30px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='11' viewBox='0 0 13 11'%3E%3Cpath d='M0 0h13L6.5 11z' fill='%237f7f7f'/%3E%3C/svg%3E");
@@ -257,7 +247,6 @@
   -webkit-appearance: none;
 }
 
-/* 아직 고르지 않았을 때("선택")는 빈칸처럼 보이게 */
 .product-register-page select:has(option[value=""]:checked) {
   color: transparent;
 }
@@ -266,7 +255,6 @@
   color: var(--product-text);
 }
 
-/* 오른쪽 입력 칸 */
 .product-register-page #product-address {
   width: 173px;
 }
@@ -330,7 +318,7 @@
   }
 }
 
-/* 태블릿 / 모바일: 이미지 위, 입력 아래 */
+/* 태블릿 / 모바일 */
 @media (max-width: 1040px) {
   .product-register-page .product-register-container {
     padding: 48px 20px;
@@ -379,7 +367,7 @@
   }
 
   .product-register-page .form-group:has(> #product-price) {
-    --price-symbol-left: 100px; /* 라벨 76 + 간격 12 + 안쪽 여백 12 */
+    --price-symbol-left: 100px;
   }
 
   .product-register-page .form-buttons {
