@@ -3,6 +3,7 @@
 {% block section %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/review_detail.css') }}">
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
 
 {% include 'common/header.html' %}
 
@@ -69,11 +70,11 @@
       <div class="review-rating-section">
 
         <div class="rating-stars">
-          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon"></span>
-          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon"></span>
-          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon"></span>
-          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon"></span>
-          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon"></span>
+          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon">
+          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon">
+          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon">
+          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon">
+          <img src="{{ url_for('static', filename='images/star.png') }}" alt="별" class="star-icon">
         </div>
 
         <div class="rating-score">

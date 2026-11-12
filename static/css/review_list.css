@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+
+/* 리뷰 목록 페이지 */
+.review-list-page {
+  --review-bg: #fff9e8;
+  --review-yellow: #ffe98a;
+  --review-coral: #ff514f;
+  --review-text: #38251f;
+  --review-white: #ffffff;
+  --review-peach: #ffd9c7;
+
+  width: 100%;
+  margin: 0;
+  background-color: var(--review-bg);
+  color: var(--review-text);
+  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.review-list-page,
+.review-list-page * {
+  box-sizing: border-box;
+}
+
+.review-list-page p {
+  margin: 0;
+}
+
+/* 목록 전체 영역 */
+.review-list-page .review-list-section {
+  padding: 150px 40px 112px;
+}
+
+.review-list-page .review-list-container {
+  width: 100%;
+  max-width: 1336px;
+  margin: 0 auto;
+}
+
+/* PC: 리뷰 3열 */
+.review-list-page .review-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 44px;
+}
+
+.review-list-page .review-card {
+  min-width: 0;
+}
+
+/* 왼쪽 이미지 / 오른쪽 리뷰 정보 */
+.review-list-page .review-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 리뷰 이미지 */
+.review-list-page .review-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--review-white);
+}
+
+.review-list-page .review-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 리뷰 정보 */
+.review-list-page .review-info {
+  min-width: 0;
+  padding-top: 6px;
+}
+
+/* 제목은 한 줄까지 표시 */
+.review-list-page .review-title {
+  overflow: hidden;
+  color: var(--review-text);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 별점 */
+.review-list-page .review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 8px 0;
+  font-family: Arial, "Malgun Gothic", sans-serif;
+  font-size: 26px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.review-list-page .star-filled {
+  color: var(--review-yellow);
+}
+
+.review-list-page .star-empty {
+  color: var(--review-peach);
+}
+
+/* 본문은 세 줄까지 표시 */
+.review-list-page .review-content {
+  display: -webkit-box;
+  overflow: hidden;
+  max-height: 4.5em;
+  color: var(--review-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* 페이지네이션 */
+.review-list-page .review-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 64px 0 0;
+  padding: 4px;
+  overflow: visible;
+  background-color: var(--review-bg);
+}
+
+.review-list-page .review-pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--review-bg);
+  color: var(--review-text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.review-list-page .review-pagination .pagination-button {
+  background-color: var(--review-yellow);
+}
+
+.review-list-page .review-pagination .pagination-active {
+  background-color: var(--review-coral);
+  color: var(--review-white);
+}
+
+/* 키보드 선택 표시 */
+.review-list-page .review-link:focus-visible,
+.review-list-page .review-pagination button:focus-visible {
+  outline: 3px solid var(--review-text);
+  outline-offset: 4px;
+}
+
+/* 마우스를 올렸을 때 */
+@media (hover: hover) {
+  .review-list-page .review-link:hover .review-title {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .review-list-page .review-pagination button:not(.pagination-active):hover {
+    background-color: var(--review-yellow);
+  }
+}
+
+/* 태블릿: 리뷰 2열 */
+@media (max-width: 1199px) {
+  .review-list-page .review-list-section {
+    padding: 80px 32px;
+  }
+
+  .review-list-page .review-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+/* 모바일: 리뷰 1열 */
+@media (max-width: 767px) {
+  .review-list-page .review-list-section {
+    padding: 48px 20px;
+  }
+
+  .review-list-page .review-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .review-list-page .review-link {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 16px;
+  }
+
+  .review-list-page .review-title {
+    font-size: 18px;
+  }
+
+  .review-list-page .review-pagination {
+    margin-top: 36px;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 479px) {
+  .review-list-page .review-list-section {
+    padding: 36px 16px;
+  }
+
+  .review-list-page .review-link {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 12px;
+  }
+
+  .review-list-page .review-info {
+    padding-top: 0;
+  }
+
+  .review-list-page .review-title {
+    font-size: 16px;
+  }
+
+  .review-list-page .review-rating {
+    margin: 6px 0;
+    font-size: 22px;
+  }
+
+  .review-list-page .review-content {
+    font-size: 13px;
+  }
+
+  .review-list-page .review-pagination button {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+  }
+}
