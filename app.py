@@ -27,21 +27,9 @@ def allowed_file(filename):
 def hello():
     return render_template('product_list.html')
 
-@app.route('/list')
-def view_list():
-    return render_template('list.html')
-
-@app.route('/review')
-def view_review():
-    return render_template('review.html')
-
 @app.route('/register-items')
 def register_items():
     return render_template('reg_items.html')
-
-@app.route('/register-reviews')
-def register_reviews():
-    return render_template('reg_reviews.html')
 
 @app.route("/submit_item")
 def reg_item_submit():
