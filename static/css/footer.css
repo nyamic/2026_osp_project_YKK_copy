@@ -22,16 +22,9 @@
     --footer-height: calc(var(--footer-wave) + 117px);
 }
 
-body {
-    padding-bottom: var(--footer-height);
-}
-
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-    pointer-events: none;
+    position: relative;
+    margin-top: 30px;
 
     width: 100%;
     height: var(--footer-height);
@@ -51,10 +44,6 @@ body {
 
 }
 
-
-.footer > * {
-    pointer-events: auto;
-}
 
 /* 왼쪽: 로고 및 설명 */
 .footer-brand {
