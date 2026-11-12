@@ -1,19 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
 
 /* =========================
    Footer
 ========================= */
 
+.footer,
+.footer button {
+    font-family: "Sunflower", "Malgun Gothic", sans-serif;
+    font-weight: 300;
+}
+
+.footer p,
+.footer ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* 물결 높이: footer.png 기준 1440px 너비에서 56px */
+:root {
+    --footer-wave: 3.89vw;
+    --footer-height: calc(var(--footer-wave) + 117px);
+}
+
+body {
+    padding-bottom: var(--footer-height);
+}
+
 .footer {
-    position: relative;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    pointer-events: none;
+
     width: 100%;
-    min-height: 245px;
+    height: var(--footer-height);
 
-    padding: 25px 35px;
-    margin-top: 30px;
+    padding: calc(var(--footer-wave) + 20px) 35px 26px;
 
-
-    background-image: url("/static/images/footer.png");
-    background-size: cover;
+    background-image:
+        url("/static/images/footer_wave.png"),
+        linear-gradient(transparent var(--footer-wave), #FFE98A var(--footer-wave));
+    background-size: 100% auto, 100% 100%;
+    background-position: top;
     background-repeat: no-repeat;
 
     display: flex;
@@ -22,6 +51,10 @@
 
 }
 
+
+.footer > * {
+    pointer-events: auto;
+}
 
 /* 왼쪽: 로고 및 설명 */
 .footer-brand {
