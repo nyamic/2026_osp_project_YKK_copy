@@ -1,0 +1,377 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&family=Annapurna+SIL&display=swap");
+@import url("https://fonts.googleapis.com/earlyaccess/jejugothic.css");
+
+/* 리뷰 등록 페이지 */
+.review-register-page {
+  --review-bg: #fff9e8;
+  --review-yellow: #ffe98a;
+  --review-coral: #ff514f;
+  --review-text: #38251f;
+  --review-white: #ffffff;
+  --review-placeholder: #a59c9a;
+  --review-star-filled: #fdcf41;
+  --review-star-empty: #fef5d7;
+  --review-star-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 23'%3E%3Cpath d='M12 2.2l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 16.6l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z' fill='black' stroke='black' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --review-file-bg: #e9e7e7;
+  --review-file-border: #6e615e;
+  --review-font-menu: "Sunflower", "Malgun Gothic", sans-serif;
+  --review-font-body: "Jeju Gothic", "Malgun Gothic", sans-serif;
+  --review-font-price: "Annapurna SIL", serif;
+
+  display: block;
+  width: 100%;
+  margin: 0;
+  background-color: var(--review-bg);
+  color: var(--review-text);
+  font-family: var(--review-font-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.review-register-page,
+.review-register-page * {
+  box-sizing: border-box;
+}
+
+/* 등록 영역 */
+.review-register-page .review-register-container {
+  width: 100%;
+  max-width: 1002px;
+  margin: 0 auto;
+  padding: 78px 0;
+}
+
+.review-register-page .review-register-form {
+  display: grid;
+  grid-template-columns: 396px minmax(0, 1fr);
+  align-items: start;
+  margin: 0;
+  padding: 24px 0 26px 22px;
+  border-radius: 24px;
+  background-color: var(--review-yellow);
+}
+
+/* 리뷰 이미지 */
+.review-register-page .review-image-section {
+  width: 396px;
+  height: 396px;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: var(--review-white);
+}
+
+.review-register-page .image-upload {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.review-register-page .image-upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.review-register-page .image-upload__label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 18px;
+  border: 1.5px solid var(--review-file-border);
+  border-radius: 4px;
+  background-color: var(--review-file-bg);
+  color: var(--review-text);
+  font-family: var(--review-font-menu);
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.review-register-page .image-upload__preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: var(--review-white);
+}
+
+.review-register-page .image-upload:has(.image-upload__preview[src]:not([src=""])) .image-upload__label {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  font-size: 0;
+}
+
+.review-register-page .image-upload__preview:not([src]),
+.review-register-page .image-upload__preview[src=""] {
+  display: none;
+}
+
+/* 리뷰 정보 입력 */
+.review-register-page .review-info-section {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 32px;
+  padding: 26px 36px 6px 31px;
+}
+
+.review-register-page .form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.review-register-page .form-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.review-register-page .form-group > label {
+  display: flex;
+  flex: 0 0 62px;
+  justify-content: center;
+  min-width: 0;
+  padding-top: 4px;
+  font-family: var(--review-font-menu);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 27px;
+  white-space: nowrap;
+}
+
+.review-register-page .form-column--right .form-group {
+  gap: 14px;
+}
+
+.review-register-page .form-column--right .form-group > label {
+  display: block;
+  flex-basis: 29px;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+.review-register-page input[type="text"],
+.review-register-page textarea {
+  display: block;
+  width: 140px;
+  height: 35px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--review-white);
+  color: var(--review-text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.review-register-page input::placeholder {
+  color: var(--review-placeholder);
+  opacity: 1;
+}
+
+.review-register-page #review-product-name {
+  width: 139px;
+  height: 80px;
+  padding: 8px 12px;
+  overflow-y: auto;
+}
+
+/* 평점 */
+.review-register-page .rating-input {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 139px;
+  height: 35px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background-color: var(--review-white);
+}
+
+.review-register-page .rating-input input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.review-register-page .rating-input label {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 19px;
+  overflow: hidden;
+  background-color: var(--review-star-empty);
+  font-size: 0;
+  cursor: pointer;
+  -webkit-mask: var(--review-star-shape) center / contain no-repeat;
+  mask: var(--review-star-shape) center / contain no-repeat;
+}
+
+.review-register-page .rating-input input:checked ~ label {
+  background-color: var(--review-star-filled);
+}
+
+.review-register-page #review-title {
+  width: 228px;
+}
+
+.review-register-page textarea {
+  width: 228px;
+  height: 218px;
+  padding: 8px 12px;
+  overflow-y: scroll;
+  resize: none;
+  scrollbar-width: thin;
+  scrollbar-color: #808080 var(--review-white);
+}
+
+/* 버튼 */
+.review-register-page .form-buttons {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 42px;
+}
+
+.review-register-page .btn {
+  width: 156px;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--review-font-menu);
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.review-register-page .btn--submit {
+  background-color: var(--review-coral);
+  color: var(--review-white);
+}
+
+.review-register-page .btn--cancel {
+  background-color: var(--review-bg);
+  color: var(--review-text);
+}
+
+/* 키보드 선택 표시 */
+.review-register-page input[type="text"]:focus-visible,
+.review-register-page textarea:focus-visible,
+.review-register-page .btn:focus-visible,
+.review-register-page .image-upload:focus-within .image-upload__label,
+.review-register-page .rating-input:focus-within {
+  outline: 2px solid var(--review-text);
+  outline-offset: 2px;
+}
+
+/* 마우스를 올렸을 때 */
+@media (hover: hover) {
+  .review-register-page .btn:hover {
+    filter: brightness(0.95);
+  }
+
+  .review-register-page .rating-input:hover input ~ label {
+    background-color: var(--review-star-empty);
+  }
+
+  .review-register-page .rating-input:hover label:hover,
+  .review-register-page .rating-input:hover label:hover ~ label {
+    background-color: var(--review-star-filled);
+  }
+}
+
+/* 태블릿 / 모바일 */
+@media (max-width: 1040px) {
+  .review-register-page .review-register-container {
+    padding: 48px 20px;
+  }
+
+  .review-register-page .review-register-form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px 20px;
+  }
+
+  .review-register-page .review-image-section {
+    width: 100%;
+    max-width: 396px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .review-register-page .review-info-section {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 34px;
+    padding: 0;
+  }
+
+  .review-register-page .form-group input[type="text"],
+  .review-register-page #review-title,
+  .review-register-page #review-product-name,
+  .review-register-page textarea {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .review-register-page .form-column--right .form-group {
+    gap: 13px;
+  }
+
+  .review-register-page .form-group > label,
+  .review-register-page .form-column--right .form-group > label {
+    display: flex;
+    flex-basis: 76px;
+    white-space: nowrap;
+  }
+
+  .review-register-page .form-buttons {
+    margin-top: 0;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 479px) {
+  .review-register-page .review-register-container {
+    padding: 36px 16px;
+  }
+
+  .review-register-page .review-register-form {
+    padding: 20px 16px;
+  }
+
+  .review-register-page .form-buttons {
+    justify-content: stretch;
+    gap: 12px;
+  }
+
+  .review-register-page .btn {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
