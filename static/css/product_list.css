@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Sunflower:wght@300&display=swap");
 
 /* 상품 목록 페이지 */
 .product-list-page {
@@ -78,8 +78,9 @@
 .product-list-page .product-name {
   overflow: hidden;
   color: var(--product-text);
+  font-family: "Sunflower", "Malgun Gothic", sans-serif;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.5;
   white-space: nowrap;
   text-overflow: ellipsis;
