@@ -1,0 +1,148 @@
+
+/* =========================
+   Footer
+========================= */
+
+.footer {
+    position: relative;
+    width: 100%;
+    min-height: 245px;
+
+    padding: 25px 35px;
+    margin-top: 30px;
+
+
+    background-image: url("/static/images/footer.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+
+/* 왼쪽: 로고 및 설명 */
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.footer-logo {
+    display: block;
+    width: 120px;
+}
+
+.footer-logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.footer-desc {
+    font-size: 12px;
+    color: #38251F;
+}
+
+/* 가운데: 메뉴 전체 */
+.footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 바로가기 */
+.footer-nav-title {
+    padding: 5px 12px;
+
+    border-radius: 20px;
+    background-color: #38251F;
+
+    color: white;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+/* 메뉴 그룹 */
+.footer-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding-right: 15px;
+    border-right: 1px solid #38251F;
+}
+
+/* 마지막 그룹 구분선 제거 */
+.footer-group:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+/* 원형 메뉴 아이콘 */
+.footer-group-label {
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #38251F;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #38251F;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+/* 메뉴 목록 */
+.footer-group-list {
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-group-list a {
+    color: #38251F;
+    font-size: 10px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.footer-group-list a:hover {
+    text-decoration: underline;
+}
+
+/* 오른쪽: 프로젝트 정보 */
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+
+    text-align: right;
+    color: #38251F;
+}
+
+.footer-course,
+.footer-team {
+    font-size: 11px;
+}
+
+.footer-github {
+    max-width: 180px;
+
+    color: #B99D48;
+    font-size: 10px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+    text-align: right;
+}
