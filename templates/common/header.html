@@ -3,25 +3,33 @@
 <header class="header">
 
   <!-- 왼쪽: 로고 -->
-  <a href="#" class="header-logo">
+  <a href="{{ url_for('main_page') }}" class="header-logo">
     <img src="" alt="EWHA MARKET">
   </a>
 
   <!-- 가운데: 메뉴 -->
   <nav class="header-nav">
     <ul class="nav-list">
-      <li class="nav-item"><a href="#" class="nav-link nav-link--active">홈</a></li>
-      <li class="nav-item"><a href="#" class="nav-link nav-link--active">상품 등록</a></li>
-      <li class="nav-item"><a href="#" class="nav-link nav-link--active">상품 목록</a></li>
-      <li class="nav-item"><a href="#" class="nav-link nav-link--active">리뷰 등록</a></li>
-      <li class="nav-item"><a href="#" class="nav-link nav-link--active">리뷰 목록</a></li>
+      <li class="nav-item"><a href="{{ url_for('main_page') }}" class="nav-link{% if request.endpoint == 'main_page' %} nav-link--active{% endif %}">홈</a></li>
+      <li class="nav-item"><a href="{{ url_for('product_register') }}" class="nav-link{% if request.endpoint == 'product_register' %} nav-link--active{% endif %}">상품 등록</a></li>
+      <li class="nav-item"><a href="{{ url_for('product_list') }}" class="nav-link{% if request.endpoint in ['product_list', 'product_detail'] %} nav-link--active{% endif %}">상품 목록</a></li>
+      <li class="nav-item"><a href="{{ url_for('review_register') }}" class="nav-link{% if request.endpoint == 'review_register' %} nav-link--active{% endif %}">리뷰 등록</a></li>
+      <li class="nav-item"><a href="{{ url_for('review_list') }}" class="nav-link{% if request.endpoint in ['review_list', 'review_detail'] %} nav-link--active{% endif %}">리뷰 목록</a></li>
     </ul>
   </nav>
 
   <!-- 오른쪽: 사용자 영역 -->
   <div class="header-user">
-    <p class="user-greeting">안녕하세요, <span id="user-id">@Ewha_CS25</span> 님!</p>
+    {% if session.get('id') %}
+    <p class="user-greeting">안녕하세요, <span id="user-id">@{{ session.get('id') }}</span> 님!</p>
     <button type="button" class="user-logout">로그아웃</button>
+    {% else %}
+    <div class="user-auth">
+      <a href="{{ url_for('signup') }}" class="user-auth-link">회원가입</a>
+      <span class="user-auth-divider">|</span>
+      <a href="{{ url_for('login') }}" class="user-auth-link">로그인</a>
+    </div>
+    {% endif %}
   </div>
 
 </header>

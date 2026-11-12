@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&family=Annapurna+SIL&display=swap");
-@import url("https://fonts.googleapis.com/earlyaccess/jejugothic.css");
+@import url("jeju-gothic.css");
 
 /* 상품 등록 페이지 */
 .product-register-page {
@@ -15,7 +15,9 @@
   --product-font-body: "Jeju Gothic", "Malgun Gothic", sans-serif;
   --product-font-price: "Annapurna SIL", serif;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   margin: 0;
   background-color: var(--product-bg);
@@ -40,10 +42,11 @@
 
 .product-register-page .product-register-form {
   display: grid;
-  grid-template-columns: 396px minmax(0, 1fr);
+  grid-template-columns: 396px auto;
+  justify-content: center;
   align-items: start;
   margin: 0;
-  padding: 24px 0 26px 22px;
+  padding: 24px 22px 26px;
   border-radius: 24px;
   background-color: var(--product-yellow);
 }
@@ -124,7 +127,7 @@
   grid-template-columns: auto auto;
   justify-content: start;
   column-gap: 50px;
-  padding: 26px 52px 6px 47px;
+  padding: 26px 0 6px 47px;
 }
 
 .product-register-page .form-column {

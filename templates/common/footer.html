@@ -4,8 +4,8 @@
 
   <!-- 왼쪽: 로고 + 사이트 설명 -->
   <div class="footer-brand">
-    <a href="#" class="footer-logo">
-      <img src="" alt="EWHA MARKET">
+    <a href="{{ url_for('main_page') }}" class="footer-logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EWHA MARKET">
     </a>
     <p class="footer-desc">문구류 판매 사이트</p>
   </div>
@@ -17,24 +17,24 @@
     <div class="footer-group">
       <span class="footer-group-label">쇼핑</span>
       <ul class="footer-group-list">
-        <li><a href="#">상품 등록</a></li>
-        <li><a href="#">상품 목록</a></li>
+        <li><a href="{{ url_for('product_register') }}">상품 등록</a></li>
+        <li><a href="{{ url_for('product_list') }}">상품 목록</a></li>
       </ul>
     </div>
 
     <div class="footer-group">
       <span class="footer-group-label">리뷰</span>
       <ul class="footer-group-list">
-        <li><a href="#">리뷰 쓰기</a></li>
-        <li><a href="#">리뷰 목록</a></li>
+        <li><a href="{{ url_for('review_register') }}">리뷰 쓰기</a></li>
+        <li><a href="{{ url_for('review_list') }}">리뷰 목록</a></li>
       </ul>
     </div>
 
     <div class="footer-group">
       <span class="footer-group-label">계정</span>
       <ul class="footer-group-list">
-        <li><a href="#">회원가입</a></li>
-        <li><a href="#">로그인</a></li>
+        <li><a href="{{ url_for('signup') }}">회원가입</a></li>
+        <li><a href="{{ url_for('login') }}">로그인</a></li>
       </ul>
     </div>
   </nav>

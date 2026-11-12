@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
 
 /* =====================================
    전체 기본 설정
@@ -15,7 +16,8 @@ html, body {
 }
 
 body {
-    font-family: sans-serif;
+    font-family: "Sunflower", "Malgun Gothic", sans-serif;
+    font-weight: 300;
     background-color: #FFF9E8;
 
     /* 회원가입 페이지와 푸터를 세로로 배치 */
@@ -25,8 +27,14 @@ body {
 }
 
 
+button,
+input {
+    font-family: inherit;
+    font-weight: inherit;
+}
+
 /* =====================================
-   회원가입 페이지 전체 
+   회원가입 페이지 전체
 ===================================== */
 
 .auth-page {
@@ -35,12 +43,11 @@ body {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 180px 60px 310px;
+    grid-template-rows: 165px 89px 458px;
 
     justify-items: center;
-    align-content: start;
+    align-content: center;
 
-    padding-top: 40px;
 }
 
 
@@ -52,7 +59,7 @@ body {
     grid-column: 1;
     grid-row: 1;
 
-    width: 290px;
+    width: 420px;
     height: 100%;
 
     display: grid;
@@ -81,25 +88,28 @@ body {
     grid-row: 2;
 
     display: grid;
-    grid-template-columns: 120px 120px;
+    grid-template-columns: 191px 191px;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    gap: 37px;
+
+    position: relative;
+    z-index: 2;
 }
 
 .auth-tab {
-    width: 120px;
-    height: 30px;
+    width: 191px;
+    height: 44px;
 
     display: grid;
     place-items: center;
 
     border: 1px solid #38251F;
-    border-radius: 20px;
+    border-radius: 30px;
 
     text-decoration: none;
     color: #38251F;
-    font-size: 12px;
+    font-size: 18px;
 }
 
 .auth-tab.active {
@@ -116,8 +126,8 @@ body {
     grid-column: 1;
     grid-row: 2;
 
-    width: 364px;
-    height: 350px;
+    width: 538px;
+    height: 517px;
 
     position: relative;
     background: none;
@@ -136,8 +146,8 @@ body {
     background-size: 100% 100%;
 
     /* 왼쪽, 아래쪽 위치 조절 */
-    left: -8px;
-    top: 20px;
+    left: 0;
+    top: 30px;
 
     z-index: 0;
 }
@@ -164,10 +174,10 @@ body {
 .auth-input-list {
     position: absolute;
 
-    top: 10px;
+    top: 163px;
     left: 45%;
 
-    transform: translate(-50%,50%);
+    transform: translateX(-50%);
 
     width: 90%;
 
@@ -183,16 +193,19 @@ body {
     width: 100%;
 
     display: grid;
-    grid-template-columns: 87px 1fr;
+    grid-template-columns: 129px 1fr;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 
 /* 입력 항목 이름 */
 
 .auth-label {
-    font-size: 12px;
+    justify-self: end;
+    width: 105px;
+
+    font-size: 18px;
     color: #38251F;
     text-align: center;
 }
@@ -203,16 +216,16 @@ body {
 .auth-input {
     width: 100%;
     min-width: 0;
-    height: 30px;
+    height: 44px;
 
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
 
     background-color: white;
 
-    padding: 0 10px;
+    padding: 0 15px;
 
-    font-size: 12px;
+    font-size: 18px;
     outline: none;
 }
 
@@ -227,34 +240,34 @@ body {
 
 .auth-id-input {
     width: 100%;
-    height: 30px;
+    height: 44px;
 
     position: relative;
 }
 
 .auth-id-input .auth-input {
     width: 100%;
-    height: 30px;
+    height: 44px;
 
-    padding-right: 48px;
+    padding-right: 71px;
 }
 
 .auth-check-button {
     position: absolute;
 
-    top: 3px;
-    right: 4px;
+    top: 4px;
+    right: 6px;
 
-    width: 40px;
-    height: 24px;
+    width: 59px;
+    height: 35px;
 
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
 
     background-color: #FF514F;
     color: white;
 
-    font-size: 9px;
+    font-size: 13px;
 
     cursor: pointer;
 }
@@ -271,25 +284,25 @@ body {
 .auth-button-group {
     position: absolute;
 
-    bottom: -5px;
-    left: 49%;
+    bottom: 3px;
+    left: 50%;
 
-    transform: translateX(-50%);
+    transform: translateX(-53%);
 
     display: grid;
-    grid-template-columns: 100px 100px;
+    grid-template-columns: 148px 148px;
     justify-content: center;
-    gap: 18px;
+    gap: 27px;
 }
 
 .auth-button-group button {
-    width: 100px;
-    height: 29px;
+    width: 148px;
+    height: 44px;
 
     border: none;
-    border-radius: 20px;
+    border-radius: 30px;
 
-    font-size: 11px;
+    font-size: 16px;
     cursor: pointer;
 }
 
