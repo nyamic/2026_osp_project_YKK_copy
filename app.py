@@ -25,7 +25,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    return render_template('product_list.html')
 
 @app.route('/list')
 def view_list():
