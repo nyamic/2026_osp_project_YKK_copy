@@ -18,7 +18,9 @@
   --review-font-body: "Jeju Gothic", "Malgun Gothic", sans-serif;
   --review-font-price: "Annapurna SIL", serif;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   margin: 0;
   background-color: var(--review-bg);
@@ -43,10 +45,11 @@
 
 .review-register-page .review-register-form {
   display: grid;
-  grid-template-columns: 396px minmax(0, 1fr);
+  grid-template-columns: 396px auto;
+  justify-content: center;
   align-items: start;
   margin: 0;
-  padding: 24px 0 26px 22px;
+  padding: 24px 22px 26px;
   border-radius: 24px;
   background-color: var(--review-yellow);
 }
@@ -127,7 +130,7 @@
   grid-template-columns: auto auto;
   justify-content: start;
   column-gap: 32px;
-  padding: 26px 36px 6px 31px;
+  padding: 26px 0 6px 31px;
 }
 
 .review-register-page .form-column {
