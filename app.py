@@ -87,9 +87,10 @@ def register_user():
     else:
         return render_template("signup.html", error="User ID already exists!")
 
-@app.route("/main")
-def main_page():
-    return render_template("main.html")
+# TODO: 홈 화면은 이번 제출물에서 제외 - 임시 주석처리
+# @app.route("/main")
+# def main_page():
+#     return render_template("main.html")
 
 @app.route("/products")
 def product_list():
