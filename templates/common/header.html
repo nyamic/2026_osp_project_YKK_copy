@@ -3,16 +3,16 @@
 <header class="header">
 
   <!-- 왼쪽: 로고 -->
-  <a href="{{ url_for('main_page') }}" class="header-logo">
+  <a {# href="{{ url_for('main_page') }}" #} class="header-logo">
     <img src="" alt="EWHA MARKET">
   </a>
 
   <!-- 가운데: 메뉴 -->
   <nav class="header-nav">
     <ul class="nav-list">
-      <li class="nav-item"><a href="{{ url_for('main_page') }}" class="nav-link{% if request.endpoint == 'main_page' %} nav-link--active{% endif %}">홈</a></li>
+      <li class="nav-item"><a {# 홈화면 임시 주석처리 href="{{ url_for('main_page') }}" #} class="nav-link{% if request.endpoint == 'main_page' %} nav-link--active{% endif %}">홈</a></li>
       <li class="nav-item"><a href="{{ url_for('product_register') }}" class="nav-link{% if request.endpoint == 'product_register' %} nav-link--active{% endif %}">상품 등록</a></li>
-      <li class="nav-item"><a href="{{ url_for('product_list') }}" class="nav-link{% if request.endpoint in ['product_list', 'product_detail'] %} nav-link--active{% endif %}">상품 목록</a></li>
+      <li class="nav-item"><a href="{{ url_for('product_list') }}" class="nav-link{% if request.endpoint in ['hello', 'product_list', 'product_detail'] %} nav-link--active{% endif %}">상품 목록</a></li>
       <li class="nav-item"><a href="{{ url_for('review_register') }}" class="nav-link{% if request.endpoint == 'review_register' %} nav-link--active{% endif %}">리뷰 등록</a></li>
       <li class="nav-item"><a href="{{ url_for('review_list') }}" class="nav-link{% if request.endpoint in ['review_list', 'review_detail'] %} nav-link--active{% endif %}">리뷰 목록</a></li>
     </ul>
