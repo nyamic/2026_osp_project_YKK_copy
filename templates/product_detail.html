@@ -2,6 +2,8 @@
 
 {% block section %}
 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product_detail.css') }}">
+
 {% include 'common/header.html' %}
 
 <main class="page-background product-detail-page">
@@ -14,7 +16,7 @@
       </div>
 
       <div class="product-image">
-        <img src="" alt="상품 이미지">
+        <img id="productMainImage" src="{{ url_for('static', filename='images/product1.jpg') }}" alt="상품 이미지">
       </div>
 
       <!-- 이미지 이동 버튼 -->
