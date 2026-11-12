@@ -20,8 +20,16 @@
 
   <!-- 오른쪽: 사용자 영역 -->
   <div class="header-user">
-    <p class="user-greeting">안녕하세요, <span id="user-id">@Ewha_CS25</span> 님!</p>
+    {% if session.get('id') %}
+    <p class="user-greeting">안녕하세요, <span id="user-id">@{{ session.get('id') }}</span> 님!</p>
     <button type="button" class="user-logout">로그아웃</button>
+    {% else %}
+    <div class="user-auth">
+      <a href="{{ url_for('signup') }}" class="user-auth-link">회원가입</a>
+      <span class="user-auth-divider">|</span>
+      <a href="{{ url_for('login') }}" class="user-auth-link">로그인</a>
+    </div>
+    {% endif %}
   </div>
 
 </header>
