@@ -41,3 +41,20 @@ class DBhandler:
         }
         self.db.child("user").push(user_info)
         return True
+    
+    def get_products(self):
+        records = self.db.child("item").get().val() or {}
+        products = []
+
+        for key, item in sorted(records.items()):
+            if not isinstance(item, dict):
+                continue
+
+            products.append({
+                "key": key,
+                "name": key,
+                "price": int(item.get("price", 0) or 0),
+                "img_path": item.get("img_path") or "",
+            })
+
+        return products
