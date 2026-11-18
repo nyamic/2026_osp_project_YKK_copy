@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "Jeju Gothic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/JejuGothic.woff2") format("woff2");
+}

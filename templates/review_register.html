@@ -2,6 +2,8 @@
 
 {% block section %}
 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/review_register.css') }}">
+
 {% include 'common/header.html' %}
 
 <main class="page-background review-register-page">
@@ -44,11 +46,10 @@
 
           <div class="form-group">
             <label for="review-product-name">상품 이름</label>
-            <input
-              type="text"
+            <textarea
               id="review-product-name"
               name="productName"
-            >
+            ></textarea>
           </div>
 
           <div class="form-group">
