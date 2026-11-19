@@ -1,0 +1,216 @@
+/* ===== 기본 설정 ===== */
+:root {
+  --bg: #fff8e6;          /* 배경 크림색 */
+  --yellow: #ffe88a;      /* 포인트 노랑 */
+  --red: #ff4b4b;         /* 포인트 빨강 */
+  --text: #2b1d0e;        /* 글자색 */
+  --border: #2b1d0e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ===== 레이아웃 ===== */
+.product-page {
+  position: relative;
+  padding: 32px 0 12px;     /* 위아래 여백 줄여서 푸터가 한 화면에 들어오게 */
+}
+
+.container {
+  width: 688px;            /* 카드 3개(200px) + 간격(44px x 2) */
+  margin: 0 auto;
+}
+
+/* ===== 필터 ===== */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 38px;      /* 박스(14px)가 튀어나오므로 실제 간격은 24px */
+}
+
+.filter-bar select {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;                  /* 5개가 container 너비를 균등 분할 */
+  min-width: 0;
+  height: 38px;
+  padding: 0 30px 0 12px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--text);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%232b1d0e' stroke-width='1.6'/%3E%3C/svg%3E")
+    no-repeat right 10px center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.filter-bar select:focus {
+  outline: 2px solid var(--yellow);
+}
+
+/* ===== 상품 그리드 ===== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);   /* 카드 폭을 줄여 세로로 길어 보이게 */
+  column-gap: 44px;
+  row-gap: 40px;            /* 박스 14px x 2 = 28px 빼고 실제 간격 12px */
+}
+
+.product-card a {
+  position: relative;
+  display: block;
+}
+
+/* 노란 박스 이미지 (항상 표시) */
+.product-card a::before {
+  content: "";
+  position: absolute;
+  inset: -14px;             /* 사진보다 사방 14px 크게 */
+  background: url("/static/images/product_box.png") no-repeat center / 100% 100%;
+  z-index: 0;
+}
+
+.product-card .thumb,
+.product-card .name,
+.product-card .price,
+.product-card .meta {
+  position: relative;       /* 박스 이미지 위로 올리기 */
+  z-index: 1;
+}
+
+.product-card .thumb {
+  width: 200px;
+  height: 126px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #555;   /* 사진 얇은 테두리 */
+}
+
+.product-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+
+.product-card .name {
+  margin-top: 5px;
+  font-size: 15px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;   /* 긴 이름은 ... 처리 */
+}
+
+.product-card .price {
+  margin-top: 2px;
+  font-family: "Gowun Batang", "Noto Serif KR", serif;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #3a2a18;
+}
+
+/* 위치/시간/상태 */
+.product-card .meta {
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #4a3a22;
+}
+
+/* ===== 페이지네이션 ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 40px;         /* 박스 아래 14px 빼고 실제 간격 26px */
+}
+
+.page-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.page-btn.arrow {
+  background: var(--yellow);
+}
+
+.page-btn:hover {
+  background: var(--yellow);
+}
+
+.page-btn.active {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ===== 장식 이미지 ===== */
+.deco {
+  position: absolute;
+  pointer-events: none;
+}
+
+.deco-left-heart { left: 135px;  top: 258px; width: 48px; }
+.deco-left-dash  { left: 188px;  top: 318px; width: 36px; }
+.deco-right-heart{ right: 178px; top: 228px; width: 56px; }
+.deco-right-wave { right: 152px; top: 332px; width: 60px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 960px) {
+  .container {
+    width: 90%;
+  }
+
+  .filter-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .filter-bar select {
+    flex: none;
+    width: calc(50% - 5px);
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+  }
+
+  .product-card .thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 200 / 126;
+  }
+
+  .deco {
+    display: none;
+  }
+}
