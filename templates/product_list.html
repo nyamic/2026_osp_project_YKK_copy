@@ -2,6 +2,7 @@
 
 {% block section %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/product_list.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/like.css') }}">
 <!-- 헤더 -->
 {% include 'common/header.html' %}
 
@@ -12,140 +13,147 @@
 
     <div class="product-list-container">
 
-      <!-- 상품 목록 -->
-      <div class="product-list">
-
-        <!-- 상품 1 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-             <img src="{{ url_for('static', filename='images/chikawa.png') }}"alt="먼작귀 치이카와 샤프">
-            </div>
-
-            <div class="product-info">
-              <p class="product-name">먼작귀 치이카와 샤프</p>
-              <p class="product-price">₩ 10,500</p>
-            </div>
-
-          </a>
+      <!-- 상품 필터 -->
+      <div class="product-filter">
+        <!-- 상단 필터 바 -->
+        <div class="filter-toolbar">
+          <button type="button" class="filter-open-button" id="filterOpenButton">
+            <span>☷</span> 상세 필터
+          </button>
+          <select id="sortFilter" class="filter-select">
+            <option value="default">기본순</option>
+            <option value="wishlist">위시리스트 순</option>
+            <option value="latest">최신등록순</option>
+            <option value="price-low">낮은 가격 순</option>
+            <option value="price-high">높은 가격 순</option>
+          </select>
+          <select id="categoryFilter" class="filter-select">
+            <option value="all">전체 카테고리</option>
+            <option value="다이어리">다이어리</option>
+            <option value="노트">노트</option>
+            <option value="메모지">메모지</option>
+            <option value="필기구">필기구</option>
+            <option value="스티커">스티커</option>
+          </select>
         </div>
 
-        <!-- 상품 2 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-              <img src="{{ url_for('static', filename='images/staedler.png') }}" alt="스테들러 슬라이딩 지우개">
+        <!-- 상세 필터 영역 -->
+        <div class="filter-detail" id="filterDetail" hidden>
+          <div class="filter-group">
+            <label class="filter-label" for="minPrice">
+              가격 범위
+            </label>
+            <div class="price-inputs">
+              <input type="number" id="minPrice" placeholder="최저 가격" value="0" min="0">
+              <span>~</span>
+              <input type="number" id="maxPrice" placeholder="최고 가격" min="0">
+              <span>원</span>
+              <span id="priceError" class="price-error">
+                *숫자만 입력 가능합니다.
+              </span>
             </div>
+          </div>
 
-            <div class="product-info">
-              <p class="product-name">스테들러 슬라이딩 지우개</p>
-              <p class="product-price">₩ 1,650</p>
+          <div class="filter-group">
+            <label class="filter-label">
+              상품 상태
+            </label>
+            <div class="filter-options">
+
+              <label>
+                <input type="checkbox" name="condition" class="condition-checkbox" value="새상품" checked> 새상품
+              </label>
+              <label>
+                <input type="checkbox" name="condition" class="condition-checkbox" value="중고" checked> 중고
+              </label>
             </div>
+          </div>
 
-          </a>
+          <div class="filter-group">
+          <label class="filter-label">
+              거래 위치
+          </label>
+            <div class="filter-options">
+              <label>
+                <input type="checkbox" name="location" class="location-checkbox" value="ecc" checked> ECC
+              </label>
+              <label>
+                <input type="checkbox" name="location" class="location-checkbox" value="학관" checked> 학관
+              </label>
+              <label>
+                <input type="checkbox" name="location" class="location-checkbox" value="아산공학관" checked> 아산공학관
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button type="button" id="filterResetButton">
+              초기화
+            </button>
+            <button type="button" id="filterApplyButton">
+              필터 적용
+            </button>
+          </div>
         </div>
 
-        <!-- 상품 3 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-               <img src="{{ url_for('static', filename='images/dokdo.png') }}" alt="독도 연필세트">
-            </div>
-
-            <div class="product-info">
-              <p class="product-name">독도 연필세트 B 8자루입</p>
-              <p class="product-price">₩ 2,000</p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 상품 4 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-             <img src="{{ url_for('static', filename='images/highlightpen.png') }}" alt="소프트 파스텔 형광펜">
-            </div>
-
-            <div class="product-info">
-              <p class="product-name">소프트 파스텔 형광펜 4색 세트</p>
-              <p class="product-price">₩ 5,000</p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 상품 5 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-            <img src="{{ url_for('static', filename='images/springnote.png') }}" alt="모닝글로리 연습장">
-
-            </div>
-
-            <div class="product-info">
-              <p class="product-name">모닝글로리 대용량 무지 연습장</p>
-              <p class="product-price">₩ 2,000</p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 상품 6 -->
-        <div class="product-card">
-          <a href="{{ url_for('product_detail') }}" class="product-link">
-
-            <div class="product-image">
-             <img src="{{ url_for('static', filename='images/earthcolorpen.png') }}" alt="수퍼색연필">
-            </div>
-
-            <div class="product-info">
-              <p class="product-name">[지구과학] 수퍼색연필 12색</p>
-              <p class="product-price">₩ 3,000</p>
-            </div>
-
-          </a>
-        </div>
+        <!-- 선택된 필터 표시 -->
+        <div class="selected-filters" id="selectedFilters"></div>
 
       </div>
 
-      <!-- Pagination 영역 (상품목록화면 전용) -->
-      <nav class="product-pagination">
 
-        <button type="button" class="pagination-button pagination-prev">
+
+      <!-- 상품 목록 -->
+      <div class="product-list">
+        {% for row in data %}
+          {% for key, value in row %}
+
+            <div class="product-card">
+              <!-- 상품 -->
+              <div class ="product-image"> 
+                <a href="{{ url_for('product_detail') }}" class="product-link">
+                  <img src="{{ url_for('static', filename='images/' ~ value.img_path) }}" alt="{{ key }}">
+                </a>
+                <!-- 좋아요 버튼 -->
+                <!-- <button type="button" class="like-button" data-product-name="{{ key }}" disabled> -->
+                <button type="button" class="like-button">
+                  <img class="like-icon" src="{{ url_for('static', filename='images/heart_empty.png') }}" alt="좋아요">
+                </button>
+              </div>
+
+              <a href="/view_detail/{{ key }}" class="product-link">
+                <div class="product-info">
+                  <p class="product-name">{{ key }}</p>
+                  <p class="product-price">₩{{ value.price }}</p>
+                </div>  
+              </a>
+              <p class="like-message"></p>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      <!-- Pagination 영역 -->
+      <nav class="product-pagination">
+        <button type="button" class="pagination-button" data-url="{{ url_for('product_list', page=page_arg - 1) }}" onclick="location.href=this.dataset.url">
           &lt;
         </button>
-
-        <button type="button" class="pagination-number pagination-active">
-          1
-        </button>
-
-        <button type="button" class="pagination-number">
-          2
-        </button>
-
-        <button type="button" class="pagination-number">
-          3
-        </button>
-
-        <button type="button" class="pagination-button pagination-next">
+        {% for p in range(1, total_pages + 1) %}
+          <button type="button" class="{% if p == page_arg %}pagination-active{% endif %}" data-url="{{ url_for('product_list', page=p) }}" onclick="location.href=this.dataset.url">
+            {{ p }}
+          </button>
+        {% endfor %}
+        <button type="button" class="pagination-button" data-url="{{ url_for('product_list', page=page_arg + 1) }}" onclick="location.href=this.dataset.url">
           &gt;
         </button>
-
       </nav>
-
     </div>
-
   </section>
-
 </main>
 
 <!-- 푸터 -->
 {% include 'common/footer.html' %}
+<script src="{{ url_for('static', filename='js/product_like.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/product_filter.js') }}" defer></script>
 
 {% endblock section %}

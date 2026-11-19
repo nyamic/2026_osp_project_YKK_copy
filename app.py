@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request, session
 from database import DBhandler
 
 app = Flask(__name__)
@@ -25,7 +25,13 @@ def allowed_file(filename):
 
 @app.route('/')
 def hello():
-    return render_template('product_list.html')
+    return render_template('main.html')
+    
+@app.route("/view_detail/<name>")
+def view_item_detail(name):
+    data = DB.get_item_byname(str(name))
+    img_path = data.get('img_path') if data else None
+    return render_template("product_detail.html", name=name, data=data, img_path=img_path)
 
 @app.route('/register-items')
 def register_items():
@@ -82,7 +88,19 @@ def register_user():
 
 @app.route("/products")
 def product_list():
-    return render_template("product_list.html")
+    items = list((DB.get_items() or {}).items())
+    items_per_row = 3
+    items_per_page = 6
+    page = request.args.get("page", 0, type=int)
+    total_pages = max(1, (len(items) + items_per_page - 1) // items_per_page)
+    page = max(1, min(page, total_pages))
+    start = (page - 1) * items_per_page
+    page_items = items[start:start + items_per_page]
+    rows = []
+    for i in range(0, len(page_items), items_per_row):
+        rows.append(page_items[i:i + items_per_row])
+    return render_template('product_list.html', data=rows,
+                           page_arg=page, total_pages=total_pages, total=len(items))
 
 @app.route("/products/detail")
 def product_detail():
@@ -104,6 +122,16 @@ def review_detail():
 def review_register():
     return render_template("review_register.html")
 
+@app.route("/item_like/<name>", methods=["GET", "POST"])
+def item_like(name):
+    user_id = session.get("id")
+    if user_id is None:
+        return jsonify({"error": "Login required"}), 401
+    if request.method == "GET":
+        return jsonify({"liked": DB.get_heart(user_id, name)})  
+    data = request.get_json()
+    saved = DB.set_heart(user_id, name, data["liked"])
+    return jsonify({"liked": saved})
 
 if __name__ == '__main__':
     app.run(debug=True)
