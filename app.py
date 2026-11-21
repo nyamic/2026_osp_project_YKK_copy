@@ -104,6 +104,10 @@ def review_detail():
 def review_register():
     return render_template("review_register.html")
 
+@app.route("/giveaways")
+def giveaway_home():
+    return render_template("giveaway_home.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

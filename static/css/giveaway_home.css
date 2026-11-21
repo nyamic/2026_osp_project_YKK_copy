@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Sunflower:wght@300&display=swap");
+
+/* 무료나눔 홈 */
+.giveaway-page {
+  --giveaway-bg: #fff9e8;
+  --giveaway-yellow: #ffe98a;
+  --giveaway-coral: #ff514f;
+  --giveaway-text: #38251f;
+  --giveaway-white: #ffffff;
+
+  width: 100%;
+  margin: 0;
+  background-color: var(--giveaway-bg);
+  color: var(--giveaway-text);
+  font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.giveaway-page,
+.giveaway-page * {
+  box-sizing: border-box;
+}
+
+.giveaway-page p,
+.giveaway-page h2 {
+  margin: 0;
+}
+
+/* 목록 전체 영역 */
+.giveaway-page .giveaway-section {
+  padding: 92px 24px 30px;
+}
+
+.giveaway-page .giveaway-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* PC: 한 줄에 3개 */
+.giveaway-page .giveaway-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 22px;
+}
+
+.giveaway-page .giveaway-card {
+  min-width: 0;
+}
+
+/* 기존 상품 이미지 사용 */
+.giveaway-page .giveaway-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--giveaway-white);
+}
+
+.giveaway-page .giveaway-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 물품 이름, 장소와 일정, 상태 */
+.giveaway-page .giveaway-info {
+  padding-top: 8px;
+}
+
+.giveaway-page .giveaway-name {
+  overflow: hidden;
+  font-family: "Sunflower", "Malgun Gothic", sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.giveaway-page .giveaway-schedule {
+  margin-top: 4px;
+  font-family: "Sunflower", "Malgun Gothic", sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.giveaway-page .giveaway-condition {
+  margin-top: 2px;
+  font-family: "Sunflower", "Malgun Gothic", sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+}
+
+/* 페이지 번호: 데이터 연결 전에는 비활성 상태 */
+.giveaway-page .giveaway-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.giveaway-page .giveaway-pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--giveaway-bg);
+  color: var(--giveaway-text);
+  font: inherit;
+  font-size: 16px;
+  opacity: 1;
+}
+
+.giveaway-page .giveaway-pagination .pagination-arrow {
+  background-color: var(--giveaway-yellow);
+}
+
+.giveaway-page .giveaway-pagination .pagination-active {
+  background-color: var(--giveaway-coral);
+  color: var(--giveaway-white);
+}
+
+/* 창을 좁혔을 때 목록 정렬 */
+@media (max-width: 767px) {
+  .giveaway-page .giveaway-section {
+    padding: 48px 20px 30px;
+  }
+
+  .giveaway-page .giveaway-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 20px;
+  }
+
+  .giveaway-page .giveaway-name {
+    font-size: 17px;
+  }
+
+  .giveaway-page .giveaway-schedule,
+  .giveaway-page .giveaway-condition {
+    font-size: 15px;
+  }
+}
