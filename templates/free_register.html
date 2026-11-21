@@ -1,0 +1,144 @@
+{% extends "index.html" %}
+
+{% block section %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/free_register.css') }}">
+
+{% include 'common/header.html' %}
+
+<main class="page-background free-register-page">
+  <section class="free-register-container">
+    <form class="free-register-form">
+
+      <!-- 물품 이미지 -->
+      <div class="free-image-section">
+        <div class="image-upload">
+          <label for="free-image" class="image-upload__label">
+            파일 선택
+          </label>
+          <input
+            type="file"
+            id="free-image"
+            name="freeImage"
+            accept="image/*"
+          >
+          <img
+            id="free-image-preview"
+            class="image-upload__preview"
+            alt="무료나눔 물품 이미지 미리보기"
+          >
+        </div>
+      </div>
+
+      <!-- 무료나눔 정보 -->
+      <div class="free-info-section">
+
+        <!-- 왼쪽 입력 영역 -->
+        <div class="form-column form-column--left">
+
+          <div class="form-group">
+            <label for="writer-id">작성자 ID</label>
+            <input
+              type="text"
+              id="writer-id"
+              name="writerId"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="product-name">물품 이름</label>
+            <input
+              type="text"
+              id="product-name"
+              name="productName"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="product-status">상태</label>
+            <select id="product-status" name="productStatus">
+              <option value="">선택</option>
+              <option value="high">상</option>
+              <option value="middle">중</option>
+              <option value="low">하</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sharing-location">나눔 장소</label>
+            <input
+              type="text"
+              id="sharing-location"
+              name="sharingLocation"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="sharing-date">나눔 날짜</label>
+            <input
+              type="text"
+              id="sharing-date"
+              name="sharingDate"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="sharing-time">나눔 시간</label>
+            <input
+              type="text"
+              id="sharing-time"
+              name="sharingTime"
+            >
+          </div>
+
+        </div>
+
+        <!-- 오른쪽 입력 영역 -->
+        <div class="form-column form-column--right">
+
+          <div class="form-group quantity-group">
+            <label for="product-quantity">수량</label>
+
+            <div class="quantity-input-wrap">
+              <input
+                type="number"
+                id="product-quantity"
+                name="productQuantity"
+                min="1"
+              >
+              <span class="quantity-unit">개</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group--description">
+            <label for="product-description">
+              상세 설명
+            </label>
+            <textarea
+              id="product-description"
+              name="productDescription"
+            ></textarea>
+          </div>
+
+        </div>
+
+        <!-- 등록 및 취소 버튼 -->
+        <div class="form-buttons">
+          <button type="submit" class="btn btn--submit">
+            나눔 등록
+          </button>
+
+          <button type="button" class="btn btn--cancel">
+            취소
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+  </section>
+</main>
+
+{% include 'common/footer.html' %}
+
+{% endblock section %}

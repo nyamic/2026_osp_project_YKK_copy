@@ -1,0 +1,90 @@
+{% extends "index.html" %}
+
+{% block section %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/free-detail.css') }}">
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
+
+{% include 'common/header.html' %}
+
+<main class="page-background product-detail-page">
+  <section class="product-detail-container">
+
+    <!-- 상품 이미지 영역 -->
+    <div class="product-detail-image">
+
+      <div class="product-image">
+        <img id="productMainImage" src="{{ url_for('static', filename='images/dee-1lbmrKTx8gQ-unsplash.jpg') }}" alt="소프트 파스텔 형광펜 4색 세트">
+      </div>
+
+      <!-- 이미지 이동 버튼 -->
+      <div class="image-navigation">
+        <button type="button" class="image-prev" aria-label="이전 이미지">
+          &#10094;
+        </button>
+
+        <button type="button" class="image-next" aria-label="다음 이미지">
+          &#10095;
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 상품 정보 영역 -->
+    <div class="product-detail-info">
+
+      <!-- 상품명 -->
+      <div class="product-detail-header">
+        <h1 class="product-title">
+          소프트 파스텔 형광펜 4색 세트
+        </h1>
+      </div>
+
+      <!-- 판매자 / 장소, 시간 / 상태 -->
+      <div class="product-seller-info">
+
+        <div class="seller-item">
+          <span class="seller-label">판매자</span>
+          <span class="seller-name">@ykk_osp</span>
+        </div>
+
+        <div class="seller-item">
+          <span class="seller-label">장소/시간</span>
+          <span class="seller-address">포스코관 / 11.17(화) 12:00</span>
+        </div>
+
+        <div class="seller-item">
+          <span class="seller-label">상태</span>
+          <span class="seller-condition">상</span>
+        </div>
+
+      </div>
+
+      <!-- 상품 설명 -->
+      <div class="product-description-section">
+        <p class="product-description">
+          구매한지 얼마 안 됐는데, 잘 사용하지 않아서 나눔합니다.
+          거의 새거나 다름 없는 상태입니다.
+        </p>
+      </div>
+
+      <!-- 버튼 영역 -->
+      <div class="product-detail-actions">
+
+        <button type="button" class="btn btn--primary">
+          나눔받기
+        </button>
+
+        <button type="button" class="btn btn--secondary">
+          뒤로가기
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+</main>
+
+{% include 'common/footer.html' %}
+
+{% endblock section %}

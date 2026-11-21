@@ -1,0 +1,416 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&family=Annapurna+SIL&display=swap");
+@import url("jeju-gothic.css");
+
+/* 무료나눔 등록 페이지 */
+.free-register-page {
+  --free-bg: #fff9e8;
+  --free-yellow: #ffe98a;
+  --free-coral: #ff514f;
+  --free-text: #38251f;
+  --free-white: #ffffff;
+  --free-placeholder: #a59c9a;
+  --free-file-bg: #e9e7e7;
+  --free-file-border: #6e615e;
+
+  --free-font-menu: "Sunflower", "Malgun Gothic", sans-serif;
+  --free-font-body: "Jeju Gothic", "Malgun Gothic", sans-serif;
+  --free-font-price: "Annapurna SIL", serif;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  background-color: var(--free-bg);
+  color: var(--free-text);
+  font-family: var(--free-font-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.free-register-page,
+.free-register-page * {
+  box-sizing: border-box;
+}
+
+/* 등록 영역 */
+.free-register-page .free-register-container {
+  width: 100%;
+  max-width: 1002px;
+  margin: 0 auto;
+  padding: 78px 0;
+}
+
+.free-register-page .free-register-form {
+  display: grid;
+  grid-template-columns: 396px auto;
+  justify-content: center;
+  align-items: start;
+  margin: 0;
+  padding: 24px 22px 26px;
+  border-radius: 24px;
+  background-color: var(--free-yellow);
+}
+
+/* 물품 이미지 */
+.free-register-page .free-image-section {
+  width: 396px;
+  height: 396px;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: var(--free-white);
+}
+
+.free-register-page .image-upload {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.free-register-page .image-upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.free-register-page .image-upload__label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 18px;
+  border: 1.5px solid var(--free-file-border);
+  border-radius: 4px;
+  background-color: var(--free-file-bg);
+  color: var(--free-text);
+  font-family: var(--free-font-menu);
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.free-register-page .image-upload__preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: var(--free-white);
+}
+
+.free-register-page .image-upload:has(.image-upload__preview[src]:not([src=""])) .image-upload__label {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  font-size: 0;
+}
+
+.free-register-page .image-upload__preview:not([src]),
+.free-register-page .image-upload__preview[src=""] {
+  display: none;
+}
+
+/* 무료나눔 정보 입력 */
+.free-register-page .free-info-section {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 50px;
+  padding: 26px 0 6px 47px;
+}
+
+.free-register-page .form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.free-register-page .form-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.free-register-page .form-group > label {
+  display: flex;
+  flex: 0 0 62px;
+  justify-content: center;
+  min-width: 0;
+  padding-top: 4px;
+  font-family: var(--free-font-menu);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 27px;
+  white-space: nowrap;
+}
+
+/* 오른쪽 입력 영역 */
+.free-register-page .form-column--right .form-group {
+  gap: 14px;
+}
+
+.free-register-page .form-column--right .form-group > label {
+  display: block;
+  flex-basis: 34px;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+/* 입력창 공통 */
+.free-register-page input[type="text"],
+.free-register-page input[type="number"],
+.free-register-page input[type="date"],
+.free-register-page input[type="time"],
+.free-register-page select,
+.free-register-page textarea {
+  display: block;
+  width: 140px;
+  height: 35px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--free-white);
+  color: var(--free-text);
+  font-family: var(--free-font-body);
+  font-size: 15px;
+}
+
+.free-register-page input::placeholder {
+  color: var(--free-placeholder);
+  opacity: 1;
+}
+
+/* 물품 이름 */
+.free-register-page #product-name {
+  width: 140px;
+  height: 35px;
+  padding: 6px 12px;
+  resize: none;
+}
+
+/* 상태 및 나눔 장소 */
+.free-register-page select {
+  padding-right: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='11' viewBox='0 0 13 11'%3E%3Cpath d='M0 0h13L6.5 11z' fill='%237f7f7f'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-size: 13px 11px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.free-register-page select:has(option[value=""]:checked) {
+  color: transparent;
+}
+
+.free-register-page select option {
+  color: var(--free-text);
+}
+
+/* 수량 */
+.free-register-page .quantity-group {
+  align-items: center;
+}
+
+.free-register-page .quantity-input-wrap {
+  position: relative;
+  width: 173px;
+  height: 35px;
+}
+
+.free-register-page #product-quantity {
+  width: 100%;
+  height: 35px;
+  padding: 0 35px 0 12px;
+  text-align: right;
+}
+
+.free-register-page .quantity-unit {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  color: var(--free-placeholder);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* 숫자 입력 화살표 제거 */
+.free-register-page input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.free-register-page input[type="number"]::-webkit-outer-spin-button,
+.free-register-page input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+/* 나눔 날짜 및 시간 */
+.free-register-page #sharing-date,
+.free-register-page #sharing-time {
+  width: 140px;
+  font-size: 13px;
+}
+
+/* 상세 설명 */
+.free-register-page #product-description {
+  width: 173px;
+  height: 218px;
+  padding: 8px 12px;
+  overflow-y: scroll;
+  resize: none;
+  scrollbar-width: thin;
+  scrollbar-color: #808080 var(--free-white);
+}
+
+/* 오른쪽 상세 설명 영역 */
+.free-register-page .form-group--description {
+  align-items: flex-start;
+}
+
+.free-register-page .form-group--description > label {
+  padding-top: 4px;
+}
+
+/* 등록 및 취소 버튼 */
+.free-register-page .form-buttons {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.free-register-page .btn {
+  width: 156px;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--free-font-menu);
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.free-register-page .btn--submit {
+  background-color: var(--free-coral);
+  color: var(--free-white);
+}
+
+.free-register-page .btn--cancel {
+  background-color: var(--free-bg);
+  color: var(--free-text);
+}
+
+/* 키보드 선택 표시 */
+.free-register-page input:focus-visible,
+.free-register-page select:focus-visible,
+.free-register-page textarea:focus-visible,
+.free-register-page .btn:focus-visible,
+.free-register-page .image-upload:focus-within .image-upload__label {
+  outline: 2px solid var(--free-text);
+  outline-offset: 2px;
+}
+
+/* 마우스를 올렸을 때 */
+@media (hover: hover) {
+  .free-register-page .btn:hover {
+    filter: brightness(0.95);
+  }
+}
+
+/* 태블릿 / 모바일 */
+@media (max-width: 1040px) {
+  .free-register-page .free-register-container {
+    padding: 48px 20px;
+  }
+
+  .free-register-page .free-register-form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px 20px;
+  }
+
+  .free-register-page .free-image-section {
+    width: 100%;
+    max-width: 396px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .free-register-page .free-info-section {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+    padding: 0;
+  }
+
+  .free-register-page .form-group input,
+  .free-register-page .form-group select,
+  .free-register-page .form-group textarea,
+  .free-register-page #product-name,
+  .free-register-page #product-quantity,
+  .free-register-page #sharing-date,
+  .free-register-page #sharing-time,
+  .free-register-page #product-description {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .free-register-page .form-column--right .form-group {
+    gap: 12px;
+  }
+
+  .free-register-page .form-group > label,
+  .free-register-page .form-column--right .form-group > label {
+    display: flex;
+    flex-basis: 76px;
+    white-space: nowrap;
+  }
+
+  .free-register-page .form-buttons {
+    margin-top: 0;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 479px) {
+  .free-register-page .free-register-container {
+    padding: 36px 16px;
+  }
+
+  .free-register-page .free-register-form {
+    padding: 20px 16px;
+  }
+
+  .free-register-page .form-buttons {
+    justify-content: stretch;
+    gap: 12px;
+  }
+
+  .free-register-page .btn {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
