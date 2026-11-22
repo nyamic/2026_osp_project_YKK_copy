@@ -122,6 +122,62 @@ def review_detail():
 def review_register():
     return render_template("review_register.html")
 
+@app.route("/regist/review", methods=["POST"])
+def regist_review():
+    data = request.form
+    image_file = request.files.get("reviewImage")
+    
+    writer_id = data.get("writerId", "").strip()
+    product_name = data.get("productName", "").strip()
+    rating = data.get("rating", "").strip()
+    title = data.get("reviewTitle", "").strip()
+    content = data.get("reviewContent", "").strip()
+
+    if not all([writer_id, product_name, rating, title, content]):
+        return """
+        <script>
+            alert("모든 항목을 입력해주세요.");
+            history.back();
+        </script>
+        """ 
+    
+    if not image_file or not image_file.filename:
+        return """
+        <script>
+            alert("리뷰 이미지를 첨부해주세요.");
+            history.back();
+        </script>
+        """ 
+
+    if not allowed_file(image_file.filename):
+        return """
+        <script>
+            alert("지원하지 않는 이미지 형식입니다.");
+            history.back();
+        </script>
+        """ 
+
+    if rating not in ["1", "2", "3", "4", "5"]:
+        return """
+        <script>
+            alert("올바른 평점을 선택해주세요.");
+            history.back();
+        </script>
+        """
+
+    img_name = image_file.filename
+    image_file.save("static/images/{}".format(img_name))
+
+    DB.insert_review(data, img_name)
+
+    return """
+    <script>
+        alert("리뷰가 등록되었습니다.");
+        location.href = "/reviews";
+    </script>
+    """
+
+
 @app.route("/item_like/<name>", methods=["GET", "POST"])
 def item_like(name):
     user_id = session.get("id")

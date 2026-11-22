@@ -56,3 +56,14 @@ class DBhandler:
         if result.val() is None:
             return False
         return result.val()
+    def insert_review(self, data, img_path):
+        review_info = {
+            "writerId": data["writerId"],
+            "productName": data["productName"],
+            "rating": int(data["rating"]),
+            "reviewTitle": data["reviewTitle"],
+            "reviewContent": data["reviewContent"],
+            "reviewImage": img_path
+        }
+        self.db.child("review").push(review_info)  
+        return True
