@@ -132,6 +132,14 @@ def item_like(name):
     data = request.get_json()
     saved = DB.set_heart(user_id, name, data["liked"])
     return jsonify({"liked": saved})
+@app.route("/wishlist")
+def wishlist():
+    return render_template("wishlist.html")
+
+@app.route("/giveaways")
+def giveaway_home():
+    return render_template("giveaway_home.html")
+  
 
 if __name__ == '__main__':
     app.run(debug=True)
