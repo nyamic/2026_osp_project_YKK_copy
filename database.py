@@ -41,3 +41,24 @@ class DBhandler:
         }
         self.db.child("user").push(user_info)
         return True
+
+    def get_reviews(self):
+        records = self.db.child("review").get().val() or {}
+        reviews = []
+
+        for key, review in records.items():
+            if not isinstance(review, dict):
+                continue
+
+            reviews.append({
+                "key": key,
+                "product_name": review.get("product_name", ""),
+                "title": review.get("title", ""),
+                "content": review.get("content", ""),
+                "rating": int(review.get("rating", 0) or 0),
+                "img_path": review.get("img_path") or "",
+                "created_at": review.get("created_at", ""),
+                "helpful_count": int(review.get("helpful_count", 0) or 0)
+            })
+
+        return reviews

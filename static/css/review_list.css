@@ -172,6 +172,22 @@
   color: var(--review-white);
 }
 
+/* 리뷰 정렬 */
+.review-sort {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.review-sort select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    font-family: inherit;
+    cursor: pointer;
+}
+
 /* 키보드 선택 표시 */
 .review-list-page .review-link:focus-visible,
 .review-list-page .review-pagination button:focus-visible {
@@ -260,4 +276,27 @@
     width: 38px;
     height: 38px;
   }
+}
+
+/* 목록이 비어 있거나 조회에 실패했을 때 */
+.review-list-page .review-list-message {
+  padding: 60px 0;
+  text-align: center;
+}
+
+/* 이미지가 등록되지 않은 리뷰 */
+.review-list-page .review-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* 이동할 수 없는 페이지 버튼 */
+.review-list-page .review-pagination button:disabled {
+  cursor: default;
+}
+
+.review-list-page .review-pagination .pagination-button:disabled {
+  opacity: 0.45;
 }
