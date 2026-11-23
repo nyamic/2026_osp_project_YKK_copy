@@ -153,6 +153,136 @@
   }
 }
 
+/* 상품 필터 */
+.product-list-page .product-filter {
+    margin-bottom: 32px;
+    font-size: 15px;
+}
+
+.product-list-page .filter-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-list-page .filter-open-button,
+.product-list-page .filter-select {
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid #e3d8bd;
+    border-radius: 8px;
+    background-color: #fff;
+    color: var(--product-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.product-list-page .filter-open-button {
+    background-color: var(--product-yellow);
+}
+
+.product-list-page .filter-select {
+    min-width: 145px;
+}
+
+.product-list-page .filter-detail {
+    margin-top: 16px;
+    padding: 24px;
+    border: 1px solid #eadfca;
+    border-radius: 12px;
+    background-color: #fffdf6;
+}
+
+.product-list-page .filter-detail[hidden] {
+    display: none;
+}
+
+.product-list-page .filter-group {
+    margin-bottom: 22px;
+}
+
+.product-list-page .filter-group h4 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.product-list-page .price-inputs,
+.product-list-page .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-list-page .price-inputs input {
+    width: 150px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #e3d8bd;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.product-list-page .filter-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.product-list-page .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.product-list-page .filter-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--product-yellow);
+    color: var(--product-text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.product-list-page .filter-actions #filterApplyButton {
+    background-color: var(--product-coral);
+    color: white;
+}
+
+.product-list-page .selected-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.product-list-page .selected-filter-tag {
+    padding: 5px 12px;
+    border-radius: 20px;
+    background-color: var(--product-yellow);
+    font-size: 13px;
+}
+
+.product-list-page .filter-label {
+    display: block;
+    margin: 0 0 12px;
+    padding: 0;
+    border: 0;
+    color: var(--product-text);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.product-list-page .price-error {
+    color: #ff514f;
+    font-size: 13px;
+}
+
 /* 태블릿 / 모바일: 상품 2열 */
 @media (max-width: 767px) {
   .product-list-page .product-list-section {

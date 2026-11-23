@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, session
 from requests.exceptions import RequestException
 from database import DBhandler
 
@@ -26,7 +26,13 @@ def allowed_file(filename):
 
 @app.route('/')
 def hello():
-    return render_template('product_list.html')
+    return render_template('main.html')
+    
+@app.route("/view_detail/<name>")
+def view_item_detail(name):
+    data = DB.get_item_byname(str(name))
+    img_path = data.get('img_path') if data else None
+    return render_template("product_detail.html", name=name, data=data, img_path=img_path)
 
 @app.route('/register-items')
 def register_items():
@@ -136,6 +142,24 @@ def review_detail():
 def review_register():
     return render_template("review_register.html")
 
+@app.route("/item_like/<name>", methods=["GET", "POST"])
+def item_like(name):
+    user_id = session.get("id")
+    if user_id is None:
+        return jsonify({"error": "Login required"}), 401
+    if request.method == "GET":
+        return jsonify({"liked": DB.get_heart(user_id, name)})  
+    data = request.get_json()
+    saved = DB.set_heart(user_id, name, data["liked"])
+    return jsonify({"liked": saved})
+@app.route("/wishlist")
+def wishlist():
+    return render_template("wishlist.html")
+
+@app.route("/giveaways")
+def giveaway_home():
+    return render_template("giveaway_home.html")
+  
 
 if __name__ == '__main__':
     app.run(debug=True)
