@@ -111,6 +111,37 @@ def wishlist():
 @app.route("/giveaways")
 def giveaway_home():
     return render_template("giveaway_home.html")
+
+@app.route("/submit_free_post", methods=["POST"])
+def free_submit_post():
+    if DB is None:
+        return DB_DISABLED_MESSAGE
+
+    image_file = request.files.get("freeImage")
+
+    if image_file is None or image_file.filename == "":
+        return """
+        <script>
+            alert("이미지를 선택해주세요.");
+            history.back();
+        </script>
+        """
+
+    if not allowed_file(image_file.filename):
+        return """
+        <script>
+            alert("지원하지 않는 이미지 형식입니다.");
+            history.back();
+        </script>
+        """
+
+    image_file.save("static/images/{}".format(image_file.filename))
+
+    data = request.form
+
+    DB.insert_free(data, image_file.filename)
+
+    return render_template("giveaway_home.html")
   
 
 if __name__ == '__main__':

@@ -41,3 +41,19 @@ class DBhandler:
         }
         self.db.child("user").push(user_info)
         return True
+
+    def insert_free(self, data, img_path):
+        free_info = {
+            "writer_id": data["writerId"],
+            "product_name": data["productName"],
+            "product_status": data["productStatus"],
+            "sharing_location": data["sharingLocation"],
+            "sharing_date": data["sharingDate"],
+            "sharing_time": data["sharingTime"],
+            "product_quantity": int(data["productQuantity"]),
+            "product_description": data["productDescription"],
+            "img_path": img_path
+        }
+
+        self.db.child("free").push(free_info)
+        return True
