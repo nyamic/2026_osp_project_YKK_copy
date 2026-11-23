@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, session
-from database import DBhandler
-
+from database import DBhandler      
+#from database_test import DBhandler     # 임시 테스트용
+from datetime import datetime
 app = Flask(__name__)
 
 try:
@@ -22,6 +23,24 @@ def allowed_file(filename):
         '.' in filename and
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
     )
+def make_date_text(created_at):
+    s = str(created_at)
+    if len(s) != 8 or not s.isdigit():
+        return ""
+    try:
+        d = datetime.strptime(s, "%Y%m%d").date()
+    except ValueError:
+        return ""
+    days = (datetime.now().date() - d).days
+    if days <= 0:
+        ago = "오늘"
+    elif days < 30:
+        ago = f"{days}일 전"
+    elif days < 365:
+        ago = f"{days // 30}달 전"
+    else:
+        ago = f"{days // 365}년 전"
+    return f"{d.year}.{d.month:02d}.{d.day:02d} · {ago}"
 
 @app.route('/')
 def hello():
@@ -114,9 +133,25 @@ def product_register():
 def review_list():
     return render_template("review_list.html")
 
-@app.route("/reviews/detail")
-def review_detail():
-    return render_template("review_detail.html")
+@app.route("/reviews/<review_key>")
+def review_detail(review_key):
+    if DB is None:
+        return DB_DISABLED_MESSAGE
+    review = DB.get_review_bykey(review_key)
+    if review is None:
+        return "존재하지 않는 리뷰입니다.", 404
+    return render_template("review_detail.html", review=review,
+                           date_text=make_date_text(review["created_at"]))
+@app.route("/reviews/<review_key>/helpful", methods=["POST"])
+def review_helpful(review_key):
+    if DB is None:
+        return jsonify({"error": "DB not connected"}), 503
+    data = request.get_json(silent=True) or {}
+    delta = 1 if data.get("action") == "add" else -1
+    count = DB.update_helpful(review_key, delta)
+    if count is None:
+        return jsonify({"error": "not found"}), 404
+    return jsonify({"helpful_count": count})
 
 @app.route("/reviews/register")
 def review_register():
