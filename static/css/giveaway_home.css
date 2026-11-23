@@ -152,3 +152,37 @@
     font-size: 15px;
   }
 }
+
+/* 목록 안내 및 페이지 이동 */
+.giveaway-page .giveaway-message {
+  padding: 60px 0;
+  text-align: center;
+}
+
+.giveaway-page .giveaway-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.giveaway-page .giveaway-pagination {
+  flex-wrap: wrap;
+}
+
+.giveaway-page .giveaway-pagination button:not(:disabled) {
+  cursor: pointer;
+}
+
+.giveaway-page .giveaway-pagination button:disabled {
+  cursor: default;
+}
+
+.giveaway-page .giveaway-pagination .pagination-arrow:disabled {
+  opacity: 0.45;
+}
+
+.giveaway-page .giveaway-pagination button:focus-visible {
+  outline: 3px solid var(--giveaway-text);
+  outline-offset: 3px;
+}
