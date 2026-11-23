@@ -111,7 +111,7 @@
             <div class="product-card">
               <!-- 상품 -->
               <div class ="product-image"> 
-                <a href="{{ url_for('product_detail') }}" class="product-link">
+                <a href="{{ url_for('view_item_detail', name=key) }}" class="product-link">
                   <img src="{{ url_for('static', filename='images/' ~ value.img_path) }}" alt="{{ key }}">
                 </a>
                 <!-- 좋아요 버튼 -->
