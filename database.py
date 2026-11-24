@@ -62,3 +62,17 @@ class DBhandler:
             })
 
         return reviews
+    def get_items(self):
+        return self.db.child("item").get().val()
+
+    def get_item_byname(self, name):
+        return self.db.child("item").child(name).get().val()
+    
+    def set_heart(self, user_id, name, liked):
+        self.db.child("heart").child(str(user_id)).child(name).child("liked").set(liked)
+        return liked
+    def get_heart(self,user_id, name):
+        result = self.db.child("heart").child(str(user_id)).child(name).child("liked").get()
+        if result.val() is None:
+            return False
+        return result.val()
