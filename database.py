@@ -94,6 +94,30 @@ class DBhandler:
         if result.val() is None:
             return False
         return result.val()
+        
+    def get_review_bykey(self, review_key):
+        review = self.db.child("review").child(review_key).get().val()
+        if not isinstance(review, dict):
+            return None
+        return {
+            "key": review_key,
+            "product_name": review.get("product_name", ""),
+            "title": review.get("title", ""),
+            "content": review.get("content", ""),
+            "rating": int(review.get("rating", 0) or 0),
+            "img_path": review.get("img_path") or "",
+            "created_at": review.get("created_at", ""),
+            "helpful_count": int(review.get("helpful_count", 0) or 0),
+            "writer_id": review.get("writerId", "") 
+        }   
+    def update_helpful(self, review_key, delta):
+        review = self.db.child("review").child(review_key).get().val()
+        if not isinstance(review, dict):
+            return None
+        count = int(review.get("helpful_count", 0) or 0) + delta
+        count = max(0, count)
+        self.db.child("review").child(review_key).update({"helpful_count": count})
+        return count
     def insert_review(self, data, img_path):
         review_info = {
             "writerId": data["writerId"],
