@@ -142,7 +142,53 @@ def product_register():
 
 @app.route("/reviews")
 def review_list():
-    return render_template("review_list.html")
+    reviews = []
+    list_error = None
+
+    if DB is None:
+        list_error = "DB 설정이 없어 리뷰 목록을 불러올 수 없습니다."
+    else:
+        try:
+            reviews = DB.get_reviews()
+        except RequestException:
+            app.logger.exception("리뷰 목록 조회 실패")
+            list_error = "리뷰 목록을 불러오지 못했습니다."
+
+    # 정렬 기준 가져오기
+    sort = request.args.get("sort", "latest")
+
+    if sort not in ["latest", "helpful"]:
+        sort = "latest"
+
+    # 정렬
+    if sort == "latest":
+        reviews.sort(
+            key=lambda review: review.get("created_at", ""),
+            reverse=True
+        )
+    elif sort == "helpful":
+        reviews.sort(
+            key=lambda review: review.get("helpful_count", 0),
+            reverse=True
+        )
+
+    # 페이지네이션
+    per_page = 6
+    total_pages = (len(reviews) + per_page - 1) // per_page
+
+    page = request.args.get("page", default=1, type=int)
+    page = min(max(page, 1), max(total_pages, 1))
+
+    start = (page - 1) * per_page
+
+    return render_template(
+        "review_list.html",
+        reviews=reviews[start:start + per_page],
+        page=page,
+        total_pages=total_pages,
+        sort=sort,
+        list_error=list_error,
+    ), (503 if list_error else 200)
 
 @app.route("/reviews/detail")
 def review_detail():

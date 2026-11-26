@@ -1,7 +1,10 @@
 {% extends "index.html" %}
 
-{% block section %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/review_list.css') }}">
+{% endblock %}
+
+{% block section %}
 {% include 'common/header.html' %}
 
 <main class="page-background review-list-page">
@@ -11,204 +14,155 @@
 
     <div class="review-list-container">
 
+      {% if list_error %}
+
+      <!-- 리뷰 목록 조회 오류 -->
+      <p class="review-list-message" role="alert">
+        {{ list_error }}
+      </p>
+
+      {% elif not reviews %}
+
+      <!-- 등록된 리뷰가 없는 경우 -->
+      <p class="review-list-message">
+        등록된 리뷰가 없습니다.
+      </p>
+
+      {% else %}
+
+      <!-- 리뷰 정렬 -->
+      <div class="review-sort">
+        <form action="{{ url_for('review_list') }}" method="get">
+          <select name="sort" onchange="this.form.submit()">
+            <option value="latest" {% if sort == 'latest' %}selected{% endif %}>
+                최신순
+            </option>
+
+            <option value="helpful" {% if sort == 'helpful' %}selected{% endif %}>
+                도움이 돼요순
+            </option>
+          </select>
+        </form>
+      </div>
+
       <!-- 리뷰 목록 -->
       <div class="review-list">
 
-        <!-- 리뷰 1 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
+        {% for review in reviews %}
 
-            <!-- 리뷰 상품 이미지 -->
+        <div class="review-card">
+          <a href="{{ url_for('review_detail', review_key=review.key) }}" class="review-link">
+
+            <!-- 리뷰 이미지 -->
             <div class="review-image">
-            <img src="{{ url_for('static', filename='images/chikawa.png') }}"alt="먼작귀 치이카와 샤프">
+
+              {% if review.img_path %}
+              <img src="{{ url_for('static', filename='images/' ~ review.img_path) }}" alt="{{ review.product_name }}">
+              {% else %}
+              <span class="review-image-placeholder">
+                이미지 없음
+              </span>
+              {% endif %}
+
             </div>
 
             <!-- 리뷰 정보 -->
             <div class="review-info">
-              <p class="review-title">먼작귀 치이카와 샤프</p>
 
+              <p class="review-title">
+                {{ review.product_name or review.title }}
+              </p>
+
+              {% if review.title and review.product_name %}
+              <p class="review-subtitle">
+                {{ review.title }}
+              </p>
+              {% endif %}
+
+              <!-- 별점 -->
               <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
+
+                {% for i in range(1, 6) %}
+
+                  {% if i <= review.rating %}
+                  <span class="star star--filled"></span>
+                  {% else %}
+                  <span class="star"></span>
+                  {% endif %}
+
+                {% endfor %}
+
               </div>
 
+              <!-- 리뷰 내용 -->
               <p class="review-content">
-                디자인이 너무 귀여워서 구매했는데 실제로 받아보니 더 마음에 들어요! 필기감도 부드럽고 좋습니다.
+                {{ review.content }}
               </p>
+
             </div>
 
           </a>
         </div>
 
-        <!-- 리뷰 2 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
-
-            <div class="review-image">
-             <img src="{{ url_for('static', filename='images/dokdo.png') }}"alt="독도 연필 세트">
-            </div>
-
-            <div class="review-info">
-              <p class="review-title">독도 연필세트 B 8자루입</p>
-
-              <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star"></span>
-                <span class="star"></span>
-              </div>
-
-              <p class="review-content">
-                평소에 연필로 필기하는 걸 좋아해서 구매했는데 생각보다 정말 좋아요! 아쉬운점은 약간의 번짐이 있다는 점이에요 이 부분만 개선되었으면 하네요.
-              </p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 리뷰 3 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
-
-            <div class="review-image">
-              <img src="{{ url_for('static', filename='images/springnote.png') }}"alt="모닝글로리 대용량 무지 연습장">
-            </div>
-
-            <div class="review-info">
-              <p class="review-title">모닝글로리 대용량 무지 연습장</p>
-
-              <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star"></span>
-              </div>
-
-              <p class="review-content">
-                공부하면서 문제를 풀 때 사용하려고 구매했어요.
-                종이도 넉넉하고 필기할 공간이 많아서 오답노트용으로 사용하기 좋을 것 같아요
-              </p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 리뷰 4 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
-
-            <div class="review-image">
-              <img src="{{ url_for('static', filename='images/staedler.png') }}"alt="스테들러 슬라이딩 지우개">
-            </div>
-
-            <div class="review-info">
-              <p class="review-title">스테들러 슬라이딩 지우개</p>
-
-              <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star"></span>
-              </div>
-
-              <p class="review-content">
-                슬라이딩 방식이라 필요한 만큼 꺼내 쓸 수 있어서 편리해요! 작은 글씨도
-                깔끔하게 지울 수 있어서 항상 필통에 넣어두고 있습니다!
-              </p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 리뷰 5 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
-
-            <div class="review-image">
-             <img src="{{ url_for('static', filename='images/earthcolorpen.png') }}"alt="수퍼 색연필 12색">
-            </div>
-
-            <div class="review-info">
-              <p class="review-title">[지구과학] 수퍼색연필 12색</p>
-
-              <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star"></span>
-              </div>
-
-              <p class="review-content">
-                색상이 다양하고 발색도 선명해서 마음에 들어요. 힘을 많이 주지 않아도
-                색이 깔끔하게 칠해지고 아이들이 사용하기 좋을 것 같습니다.
-              </p>
-            </div>
-
-          </a>
-        </div>
-
-        <!-- 리뷰 6 -->
-        <div class="review-card">
-          <a href="{{ url_for('review_detail') }}" class="review-link">
-
-            <div class="review-image">
-              <img src="{{ url_for('static', filename='images/highlightpen.png') }}" alt="소프트 파스텔 형광펜">
-            </div>
-
-            <div class="review-info">
-              <p class="review-title">소프트 파스텔 형광펜 4색 세트</p>
-
-              <div class="review-rating">
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-                <span class="star star--filled"></span>
-              </div>
-
-              <p class="review-content">
-                공부할 때 중요한 내용을 표시하려고 구매했는데 정말 만족스러워요!
-                일반적인 형광펜은 색이 너무 진해 뒤에 비치는 경우가 종종 있는데 이 제품은
-                색이 고르게 나와 사용하기 편하네요!
-              </p>
-            </div>
-
-          </a>
-        </div>
+        {% endfor %}
 
       </div>
 
-      <!-- Pagination 영역 -->
-      <nav class="review-pagination">
+      <!-- Pagination -->
+      <nav aria-label="리뷰 목록 페이지">
 
-        <button type="button" class="pagination-button pagination-prev">
-          &lt;
-        </button>
+        <form
+          action="{{ url_for('review_list') }}"
+          method="get"
+          class="review-pagination"
+        >
 
-        <button type="button" class="pagination-number pagination-active">
-          1
-        </button>
+        <input type="hidden" name="sort" value="{{ sort }}">
 
-        <button type="button" class="pagination-number">
-          2
-        </button>
+          <!-- 이전 페이지 -->
+          <button
+            type="submit"
+            name="page"
+            value="{{ page - 1 }}"
+            class="pagination-button pagination-prev"
+            aria-label="이전 페이지"
+            {% if page == 1 %}disabled{% endif %}
+          >
+            &lt;
+          </button>
 
-        <button type="button" class="pagination-number">
-          3
-        </button>
+          <!-- 페이지 번호 -->
+          {% for number in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
 
-        <button type="button" class="pagination-button pagination-next">
-          &gt;
-        </button>
+          <button
+            type="submit"
+            name="page"
+            value="{{ number }}"
+            class="pagination-number{% if number == page %} pagination-active{% endif %}"
+            {% if number == page %}aria-current="page" disabled{% endif %}
+          >
+            {{ number }}
+          </button>
+
+          {% endfor %}
+
+          <!-- 다음 페이지 -->
+          <button
+            type="submit"
+            name="page"
+            value="{{ page + 1 }}"
+            class="pagination-button pagination-next"
+            aria-label="다음 페이지"
+            {% if page == total_pages %}disabled{% endif %}
+          >
+            &gt;
+          </button>
+
+        </form>
 
       </nav>
+
+      {% endif %}
 
     </div>
 
