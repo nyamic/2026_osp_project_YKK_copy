@@ -278,6 +278,11 @@
   color: #fff;
 }
 
+.btn--primary:disabled {
+  background: #686868;
+  cursor: not-allowed;
+}
+
 /* 뒤로가기 버튼 */
 .product-detail-page .product-detail-actions .btn--secondary {
   border: 1px solid #786c60;
