@@ -98,6 +98,7 @@
 }
 
 .free-register-page .image-upload__preview {
+  display: none;
   position: absolute;
   inset: 0;
   width: 100%;
@@ -120,6 +121,24 @@
 .free-register-page .image-upload__preview:not([src]),
 .free-register-page .image-upload__preview[src=""] {
   display: none;
+}
+
+.free-register-page .image-count {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+}
+
+.free-register-page .image-navigation {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
 }
 
 /* 무료나눔 정보 입력 */

@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from database import DBhandler
 
+import os
+import uuid
+
 app = Flask(__name__)
 
 try:
@@ -117,9 +120,52 @@ def free_submit_post():
     if DB is None:
         return DB_DISABLED_MESSAGE
 
-    image_file = request.files.get("freeImage")
+    data = request.form.to_dict()
+    image_files = request.files.getlist("freeImage")
 
-    if image_file is None or image_file.filename == "":
+    writer_id = data.get("writerId", "").strip()
+    product_name = data.get("productName", "").strip()
+    product_status = data.get("productStatus", "").strip()
+    sharing_location = data.get("sharingLocation", "").strip()
+    sharing_date = data.get("sharingDate", "").strip()
+    sharing_time = data.get("sharingTime", "").strip()
+    product_quantity = data.get("productQuantity", "").strip()
+    product_description = data.get("productDescription", "").strip()
+
+    if not all([
+        writer_id,
+        product_name,
+        product_status,
+        sharing_location,
+        sharing_date,
+        sharing_time,
+        product_quantity,
+        product_description
+    ]):
+        return """
+        <script>
+            alert("모든 항목을 입력해주세요.");
+            history.back();
+        </script>
+        """
+
+    if product_status not in ["high", "middle", "low"]:
+        return """
+        <script>
+            alert("올바른 물품 상태를 선택해주세요.");
+            history.back();
+        </script>
+        """
+
+    if not product_quantity.isdigit() or int(product_quantity) < 1:
+        return """
+        <script>
+            alert("수량은 1개 이상 입력해주세요.");
+            history.back();
+        </script>
+        """
+
+    if not image_files or any(not file.filename for file in image_files):
         return """
         <script>
             alert("이미지를 선택해주세요.");
@@ -127,21 +173,34 @@ def free_submit_post():
         </script>
         """
 
-    if not allowed_file(image_file.filename):
-        return """
-        <script>
-            alert("지원하지 않는 이미지 형식입니다.");
-            history.back();
-        </script>
-        """
+    for image_file in image_files:
+        if not allowed_file(image_file.filename):
+            return """
+            <script>
+                alert("지원하지 않는 이미지 형식입니다.");
+                history.back();
+            </script>
+            """
 
-    image_file.save("static/images/{}".format(image_file.filename))
+    os.makedirs("static/images", exist_ok=True)
 
-    data = request.form
+    img_names = []
 
-    DB.insert_free(data, image_file.filename)
+    for image_file in image_files:
+        ext = image_file.filename.rsplit(".", 1)[1].lower()
+        img_name = f"{uuid.uuid4().hex}.{ext}"
 
-    return render_template("giveaway_home.html")
+        image_file.save(os.path.join("static/images", img_name))
+        img_names.append(img_name)
+
+    DB.insert_free(data, img_names)
+
+    return """
+    <script>
+        alert("무료나눔이 등록되었습니다.");
+        location.href = "/giveaways";
+    </script>
+    """
   
 
 if __name__ == '__main__':

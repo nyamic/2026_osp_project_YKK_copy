@@ -44,16 +44,16 @@ class DBhandler:
 
     def insert_free(self, data, img_path):
         free_info = {
-            "writer_id": data["writerId"],
-            "product_name": data["productName"],
-            "product_status": data["productStatus"],
-            "sharing_location": data["sharingLocation"],
-            "sharing_date": data["sharingDate"],
-            "sharing_time": data["sharingTime"],
-            "product_quantity": int(data["productQuantity"]),
-            "product_description": data["productDescription"],
-            "img_path": img_path
+            "writerId": data["writerId"],
+            "productName": data["productName"],
+            "productStatus": data["productStatus"],
+            "sharingLocation": data["sharingLocation"],
+            "sharingDate": data["sharingDate"],
+            "sharingTime": data["sharingTime"],
+            "productQuantity": int(data["productQuantity"]),
+            "productDescription": data["productDescription"],
+            "freeImage": img_path
         }
 
-        self.db.child("free").push(free_info)
+        self.db.child("giveaway").push(free_info)
         return True
