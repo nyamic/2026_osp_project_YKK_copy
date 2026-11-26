@@ -8,7 +8,12 @@
 
 <main class="page-background free-register-page">
   <section class="free-register-container">
-    <form class="free-register-form">
+    <form
+      class="free-register-form"
+      action="/submit_free_post"
+      method="POST"
+      enctype="multipart/form-data"
+    >
 
       <!-- 물품 이미지 -->
       <div class="free-image-section">
@@ -21,12 +26,22 @@
             id="free-image"
             name="freeImage"
             accept="image/*"
+            multiple
           >
           <img
             id="free-image-preview"
             class="image-upload__preview"
             alt="무료나눔 물품 이미지 미리보기"
           >
+
+          <div class="image-count">
+            <span id="image-count">0 / 0</span>
+          </div>
+
+          <div class="image-navigation">
+            <button type="button" id="image-prev" aria-label="이전 이미지">&#10094;</button>
+            <button type="button" id="image-next" aria-label="다음 이미지">&#10095;</button>
+          </div>
         </div>
       </div>
 
@@ -76,7 +91,7 @@
           <div class="form-group">
             <label for="sharing-date">나눔 날짜</label>
             <input
-              type="text"
+              type="date"
               id="sharing-date"
               name="sharingDate"
             >
@@ -128,7 +143,11 @@
             나눔 등록
           </button>
 
-          <button type="button" class="btn btn--cancel">
+          <button
+            type="button"
+            class="btn btn--cancel"
+            onclick="location.href='/giveaways'"
+          >
             취소
           </button>
         </div>
@@ -140,5 +159,7 @@
 </main>
 
 {% include 'common/footer.html' %}
+
+<script src="{{ url_for('static', filename='js/free_register.js') }}" defer></script>
 
 {% endblock section %}
