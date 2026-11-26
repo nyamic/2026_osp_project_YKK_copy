@@ -261,10 +261,31 @@
 }
 
 .product-list-page .selected-filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     padding: 5px 12px;
     border-radius: 20px;
     background-color: var(--product-yellow);
+    color: #38251e;
     font-size: 13px;
+}
+
+.product-list-page .selected-filter-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    color: #38251e;
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+
+.product-list-page .selected-filter-remove:hover {
+    color: #ff5054;
 }
 
 .product-list-page .filter-label {

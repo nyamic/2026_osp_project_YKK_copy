@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, session, abort
+from flask import Flask, jsonify, redirect, render_template, request, session, abort, url_for
 from database import DBhandler
 from requests.exceptions import RequestException
 from datetime import datetime
@@ -73,23 +73,77 @@ def reg_item_submit():
     return "Input name:" + name + " input status:" + status
 
 @app.route("/submit_item_post", methods=["POST"])
-def reg_item_submit_post():
+def regist_product():
         if DB is None:
             return DB_DISABLED_MESSAGE
-        image_file=request.files["picture"]
-        if image_file and image_file.filename:
-            if not allowed_file(image_file.filename):
+        data = request.form
+        image_file = request.files.get("productImage")
+
+        # 필수 항목 검사
+        required_fields = [
+            "writerId",
+            "productName",
+            "productPrice",
+            "category",
+            "productStatus",
+            "address",
+            "productDescription"
+        ]
+
+        for field in required_fields:
+            if not data.get(field):
                 return """
-    <script>
-        alert("지원하지 않는 이미지 형식입니다.\\nPNG, JPG, JPEG, GIF, WEBP 파일만 업로드할 수 있습니다.");
-        history.back();
-    </script>
-    """
-        image_file.save("static/images/{}".format(image_file.filename))
-        data=request.form
-        DB.insert_item(data["product_name"], data, image_file.filename)
-        return render_template("result.html", data=data,
-                               img_path="static/images/{}".format(image_file.filename))
+                <script>
+                    alert("모든 항목을 입력해주세요.");
+                    history.back();
+                </script>
+                """
+
+        # 이미지 검사
+        if not image_file or not image_file.filename:
+            return """
+            <script>
+                alert("상품 이미지를 등록해주세요.");
+                history.back();
+            </script>
+            """
+        if not allowed_file(image_file.filename):
+            return """
+            <script>
+                alert("지원하지 않는 이미지 형식입니다.\\nPNG, JPG, JPEG, GIF, WEBP 파일만 업로드할 수 있습니다.");
+                history.back();
+            </script>
+            """
+
+        # 가격 검사
+        try:
+            price = int(data["productPrice"])
+            if price < 0:
+                raise ValueError
+        except ValueError:
+            return """
+            <script>
+                alert("올바른 가격을 입력해주세요.");
+                history.back();
+            </script>
+            """
+
+        # 이미지 저장
+        img_name = image_file.filename
+        image_file.save("static/images/{}".format(img_name))
+
+        item_data = {
+            "seller_id": data["writerId"],
+            "price": price,
+            "address": data["address"],
+            "status": data["productStatus"],
+            "category": data["category"],
+            "description": data["productDescription"]
+        }
+        # DB 등록
+        DB.insert_item(data["productName"], item_data, img_name)
+
+        return redirect(url_for("product_list"))
 
 @app.route("/login")
 def login():
@@ -125,12 +179,80 @@ def product_list():
     else:
         try:
             products = DB.get_products()
+            heart_counts = DB.get_heart_counts()
+
+            for product in products:
+                product["like_count"] = heart_counts.get(product["name"], 0)
+            
+            # 필터링
+            category = request.args.get("category", "all")
+            min_price = request.args.get("min_price", "0")
+            max_price = request.args.get("max_price", "")
+            conditions = request.args.getlist("condition")
+            locations = request.args.getlist("location")
+
+            if "condition" not in request.args:
+                conditions = ["new", "like-new", "used"]
+            if "location" not in request.args:
+                locations = ["ecc", "학관", "아산공학관"]
+            if "__none__" in conditions:
+                conditions = []
+            if "__none__" in locations:
+                locations = []
+            min_price = int(min_price or 0)
+            max_price = int(max_price) if max_price else None
+
+            filtered_products = []
+
+            for product in products:
+                if category != "all" and product["category"] != category:
+                    continue
+                price = product["price"]
+                if price < min_price:
+                    continue
+                if max_price is not None and price > max_price:
+                    continue
+                if product["status"] not in conditions:
+                    continue
+                address = product["address"].lower()
+                if not any(
+                    location.lower() in address
+                    for location in locations
+                ):
+                    continue
+                filtered_products.append(product)
+
+            # 정렬
+            sort_type = request.args.get("sort", "default")
+
+            if sort_type == "wishlist":
+                filtered_products.sort(
+                    key=lambda product: product["like_count"],
+                    reverse=True
+                )
+            elif sort_type == "latest":
+                filtered_products.sort(
+                    key=lambda product: product["created_at"],
+                    reverse=True
+                )
+            elif sort_type == "price-low":
+                filtered_products.sort(
+                    key=lambda product: product["price"]
+                )
+            elif sort_type == "price-high":
+                filtered_products.sort(
+                    key=lambda product: product["price"],
+                    reverse=True
+                )
+
+            products = filtered_products    
         except RequestException:
             app.logger.exception("상품 목록 조회 실패")
             list_error = (
                 "상품 목록을 불러오지 못했습니다. "
                 "잠시 후 다시 시도해 주세요."
             )
+            products = []
 
     # 한 페이지에 상품 6개 표시
     per_page = 6
@@ -288,17 +410,22 @@ def regist_review():
     </script>
     """
 
-
 @app.route("/item_like/<name>", methods=["GET", "POST"])
 def item_like(name):
+    if DB is None:
+        return jsonify({"error": "DB unavailable"}), 503
     user_id = session.get("id")
     if user_id is None:
         return jsonify({"error": "Login required"}), 401
     if request.method == "GET":
-        return jsonify({"liked": DB.get_heart(user_id, name)})  
-    data = request.get_json()
+        liked = DB.get_heart(user_id, name)
+        return jsonify({"liked": liked})
+    data = request.get_json(silent=True) or {}
+    if not isinstance(data.get("liked"), bool):
+        return jsonify({"error": "Invalid request"}), 400
     saved = DB.set_heart(user_id, name, data["liked"])
     return jsonify({"liked": saved})
+
 @app.route("/wishlist")
 def wishlist():
     return render_template("wishlist.html")

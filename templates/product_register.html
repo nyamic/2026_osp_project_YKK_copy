@@ -8,7 +8,7 @@
 
 <main class="page-background product-register-page">
   <section class="product-register-container">
-    <form class="product-register-form">
+    <form class="product-register-form" action="{{ url_for('regist_product') }}" method="POST" enctype="multipart/form-data">
 
       <!-- 상품 이미지 -->
       <div class="product-image-section">
@@ -21,6 +21,7 @@
             id="product-image"
             name="productImage"
             accept="image/*"
+            required
           >
           <img
             id="product-image-preview"
@@ -36,23 +37,35 @@
 
           <div class="form-group">
             <label for="writer-id">작성자 ID</label>
-            <input type="text" id="writer-id" name="writerId">
+            <input type="text" id="writer-id" name="writerId" required>
           </div>
 
           <div class="form-group">
             <label for="product-name">상품 이름</label>
-            <textarea id="product-name" name="productName"></textarea>
+            <textarea id="product-name" name="productName" required></textarea>
           </div>
 
           <div class="form-group">
             <label for="product-price">가격</label>
-            <input type="number" id="product-price" name="productPrice" placeholder="₩">
+            <input type="number" id="product-price" name="productPrice" placeholder="₩" required>
           </div>
 
           <div class="form-group">
-            <label for="product-status">상태</label>
-            <select id="product-status" name="productStatus">
-              <option value="">선택</option>
+            <label for="product-category">카테고리</label>
+            <select id="product-category" name="category" required>
+              <option value="" selected disabled>선택</option>
+              <option value="다이어리">다이어리</option>
+              <option value="노트">노트</option>
+              <option value="메모지">메모지</option>
+              <option value="필기구">필기구</option>
+              <option value="스티커">스티커</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-status">상품 상태</label>
+            <select id="product-status" name="productStatus" required>
+              <option value="" selected disabled>선택</option>
               <option value="new">새 상품</option>
               <option value="like-new">거의 새 것</option>
               <option value="used">사용감 있음</option>
@@ -64,19 +77,24 @@
         <div class="form-column form-column--right">
 
           <div class="form-group">
-            <label for="product-address">주소</label>
-            <input type="text" id="product-address" name="address">
+            <label for="product-address">거래 장소</label>
+            <select id="product-address" name="address" required>
+              <option value="" selected disabled>선택</option>
+              <option value="ECC">ECC</option>
+              <option value="학관">학관</option>
+              <option value="아산공학관">아산공학관</option>
+            </select>
           </div>
 
           <div class="form-group">
             <label for="product-description">제품 설명</label>
-            <textarea id="product-description" name="productDescription"></textarea>
+            <textarea id="product-description" name="productDescription" required></textarea>
           </div>
 
         </div>
 
         <div class="form-buttons">
-          <button type="button" class="btn btn--submit">
+          <button type="submit" class="btn btn--submit">
             상품 등록
           </button>
           <button type="button" class="btn btn--cancel">
@@ -90,5 +108,5 @@
 </main>
 
 {% include 'common/footer.html' %}
-
+<script src="{{ url_for('static', filename='js/product_register.js') }}"></script>
 {% endblock section %}

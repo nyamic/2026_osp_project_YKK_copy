@@ -251,7 +251,7 @@
 }
 
 .product-register-page select:has(option[value=""]:checked) {
-  color: transparent;
+  color: var(--product-placeholder);
 }
 
 .product-register-page select option {
