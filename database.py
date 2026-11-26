@@ -43,6 +43,23 @@ class DBhandler:
         self.db.child("user").push(user_info)
         return True
 
+    def get_products(self):
+        records = self.db.child("item").get().val() or {}
+        products = []
+
+        for key, item in sorted(records.items()):
+            if not isinstance(item, dict):
+                continue
+
+            products.append({
+                "key": key,
+                "name": key,
+                "price": int(item.get("price", 0) or 0),
+                "img_path": item.get("img_path") or "",
+            })
+
+        return products
+
     def get_items(self):
         return self.db.child("item").get().val()
 
@@ -57,6 +74,7 @@ class DBhandler:
         if result.val() is None:
             return False
         return result.val()
+
     def get_giveaways(self):
         records = self.db.child("giveaway").get().val()
 
@@ -115,3 +133,4 @@ class DBhandler:
             })
 
         return giveaways
+
