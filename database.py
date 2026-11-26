@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import time
 import pyrebase
 import json
 import hashlib
@@ -17,8 +18,10 @@ class DBhandler:
             "price": int(data["price"]),
             "address": data["address"],
             "status": data["status"],
-            "email": data["email"],
-            "img_path": img_path
+            "img_path": img_path,
+            "category": data.get("category", ""),
+            "description": data["description"],
+            "created_at": int(time.time())
         }
 
         self.db.child("item").child(name).set(item_info)
@@ -63,6 +66,7 @@ class DBhandler:
             })
 
         return reviews
+    
     def get_products(self):
         records = self.db.child("item").get().val() or {}
         products = []
@@ -76,6 +80,10 @@ class DBhandler:
                 "name": key,
                 "price": int(item.get("price", 0) or 0),
                 "img_path": item.get("img_path") or "",
+                "status": item.get("status", ""),
+                "address": item.get("address", ""),
+                "category": item.get("category", ""),
+                "created_at": int(item.get("created_at", 0) or 0)
             })
 
         return products
@@ -94,6 +102,23 @@ class DBhandler:
         if result.val() is None:
             return False
         return result.val()
+
+    def get_heart_counts(self):
+        result = self.db.child("heart").get()
+        counts = {}
+
+        if result.val() is None:
+            return counts
+
+        for user in result.each() or []:
+            for product in user.each() or []:
+                product_data = product.val() or {}
+
+                if product_data.get("liked", False):
+                    name = product.key()
+                    counts[name] = counts.get(name, 0) + 1
+
+        return counts
         
     def get_review_bykey(self, review_key):
         review = self.db.child("review").child(review_key).get().val()

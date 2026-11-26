@@ -1,102 +1,113 @@
-/*
-document.querySelectorAll(".like-button").forEach(button => {
-//const button = document.getElementById("like-button");
-//const icon = document.getElementById("like-icon");
-//const message = document.getElementById("like-message");
+document.addEventListener("DOMContentLoaded", function () {
 
-    const productName = button.dataset.productName;
-    const icon = button.querySelector(".like-icon");
-    const message = button.closest(".product-card").querySelector(".like-message");
+    // 상품 카드의 하트 상태 초기화
+    window.initializeProductLikes = function () {
+        const buttons = document.querySelectorAll(
+            "#productResults .like-button"
+        );
 
-    let liked = false;
+        buttons.forEach(async button => {
+            if (button.dataset.initialized === "true") {
+                return;
+            }
 
-    // 좋아요 이미지 변경
-    function showLikeState(value) {
-        liked = value;
+            button.dataset.initialized = "true";
+            button.disabled = true;
 
-        icon.src = liked
-            ? "/static/images/heart_filled.png"
-            : "/static/images/heart_empty.png";
-    }
+            const productName = button.dataset.productName;
+            const icon = button.querySelector(".like-icon");
 
-    // 기존 좋아요 상태 불러오기
-    async function loadLikeState() {
+            const url = `/item_like/${encodeURIComponent(productName)}`;
+
+            function showLikeState(liked) {
+                button.dataset.liked = String(liked);
+
+                icon.src = liked
+                    ? "/static/images/heart_filled.png"
+                    : "/static/images/heart_empty.png";
+            }
+
+            try {
+                const response = await fetch(url);
+
+                if (response.status === 401) {
+                    showLikeState(false);
+                    button.disabled = false;
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error("찜 상태를 불러오지 못했습니다.");
+                }
+
+                const data = await response.json();
+
+                showLikeState(data.liked);
+                button.disabled = false;
+
+            } catch (error) {
+                console.error(error);
+                button.disabled = true;
+            }
+        });
+    };
+
+    // 하트 클릭 이벤트
+    document.addEventListener("click", async function (event) {
+        const button = event.target.closest(
+            "#productResults .like-button"
+        );
+
+        if (!button || button.disabled) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const productName = button.dataset.productName;
+        const nextState = button.dataset.liked !== "true";
+
+        const url = `/item_like/${encodeURIComponent(productName)}`;
+
+        button.disabled = true;
+
         try {
-            const response = await fetch(
-                "/item_like/${encodeURIComponent(productName)"
-            );
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    liked: nextState
+                })
+            });
 
             if (response.status === 401) {
-                throw new Error("Please log in to use likes.");
+                alert("로그인 후 이용할 수 있습니다.");
+                return;
             }
 
             if (!response.ok) {
-                throw new Error("Failed to load like state.");
+                throw new Error("찜 상태 변경에 실패했습니다.");
             }
 
-            const data = await response.json();
+            // 현재 필터와 정렬을 유지하면서 목록 갱신
+            if (window.loadProductResults) {
+                await window.loadProductResults(
+                    window.currentProductUrl || "/products"
+                );
+            }
 
-            showLikeState(data.liked);
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
 
+        } finally {
             button.disabled = false;
-
-        } catch (error) {
-            button.disabled = true;
-            message.textContent = error.message;
-        }
-    }
-
-    // 좋아요 버튼 클릭
-    button.addEventListener("click", async function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const nextState = !liked;
-
-        message.textContent = "";
-
-        try {
-            const response = await fetch(
-                "/item_like/${encodeURIComponent(productName)",
-                {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({liked: nextState})
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Failed to update like.");
-            }
-
-            const data = await response.json();
-
-            showLikeState(data.liked);
-
-        } catch (error) {
-            message.textContent = error.message;
         }
     });
-    // 페이지 로드 시 좋아요 상태 확인
-    loadLikeState();
-});
-*/
 
-document.querySelectorAll(".like-button").forEach(button => {
-    const icon = button.querySelector(".like-icon");
-
-    let liked = false;
-
-    button.addEventListener("click", function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        liked = !liked;
-
-        if (liked) {
-            icon.src = "/static/images/heart_filled.png";
-        } else {
-            icon.src = "/static/images/heart_empty.png";
-        }
-    });
+    // 최초 상품 목록의 하트 상태 확인
+    window.initializeProductLikes();
 });

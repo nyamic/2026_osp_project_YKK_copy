@@ -49,10 +49,13 @@
             <span class="filter-label">상품 상태</span>
             <div class="filter-options">
               <label>
-                <input type="checkbox" name="condition" class="condition-checkbox" value="새상품" checked> 새상품
+                <input type="checkbox" name="condition" class="condition-checkbox" value="new" checked> 새 상품
               </label>
               <label>
-                <input type="checkbox" name="condition" class="condition-checkbox" value="중고" checked> 중고
+                <input type="checkbox" name="condition" class="condition-checkbox" value="like-new" checked> 거의 새 것
+              </label>
+              <label>
+                <input type="checkbox" name="condition" class="condition-checkbox" value="used" checked> 사용감 있음
               </label>
             </div>
           </div>
@@ -81,85 +84,93 @@
         <div class="selected-filters" id="selectedFilters"></div>
       </div>
 
-      {% if list_error %}
-      <p class="product-list-message" role="alert">{{ list_error }}</p>
+      <div id="productResults">
+        {% if list_error %}
+        <p class="product-list-message" role="alert">{{ list_error }}</p>
 
-      {% elif not products %}
-      <p class="product-list-message">등록된 상품이 없습니다.</p>
+        {% elif not products %}
+        <p class="product-list-message">등록된 상품이 없습니다.</p>
 
-      {% else %}
-      <div class="product-list">
-        {% for product in products %}
-        <div class="product-card">
-          <div class="product-image">
-            <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
-              {% if product.img_path %}
-              <img
-                src="{{ url_for('static', filename='images/' ~ product.img_path) }}"
-                alt="{{ product.name }}"
-              >
-              {% else %}
-              <span class="product-image-placeholder">이미지 없음</span>
-              {% endif %}
-            </a>
-            <button type="button" class="like-button" aria-label="{{ product.name }} 좋아요">
-              <img
-                class="like-icon"
-                src="{{ url_for('static', filename='images/heart_empty.png') }}"
-                alt=""
-              >
-            </button>
-          </div>
-
-          <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
-            <div class="product-info">
-              <p class="product-name">{{ product.name }}</p>
-              <p class="product-price">₩ {{ '{:,}'.format(product.price) }}</p>
+        {% else %}
+        <div class="product-list">
+          {% for product in products %}
+          <div class="product-card">
+            <div class="product-image">
+              <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+                {% if product.img_path %}
+                <img
+                  src="{{ url_for('static', filename='images/' ~ product.img_path) }}"
+                  alt="{{ product.name }}"
+                >
+                {% else %}
+                <span class="product-image-placeholder">이미지 없음</span>
+                {% endif %}
+              </a>
+              <button type="button" class="like-button" data-product-name="{{ product.name }}" aria-label="{{ product.name }} 좋아요">
+                <img
+                  class="like-icon"
+                  src="{{ url_for('static', filename='images/heart_empty.png') }}"
+                  alt=""
+                >
+              </button>
             </div>
-          </a>
-          <p class="like-message"></p>
-        </div>
-        {% endfor %}
-      </div>
 
-      <nav aria-label="상품 목록 페이지">
-        <form action="{{ url_for('product_list') }}" method="get" class="product-pagination">
-          <button
-            type="submit"
-            name="page"
-            value="{{ page - 1 }}"
-            class="pagination-button"
-            aria-label="이전 페이지"
-            {% if page == 1 %}disabled{% endif %}
-          >
-            &lt;
-          </button>
-
-          {% for number in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
-          <button
-            type="submit"
-            name="page"
-            value="{{ number }}"
-            class="pagination-number{% if number == page %} pagination-active{% endif %}"
-            {% if number == page %}aria-current="page" disabled{% endif %}
-          >
-            {{ number }}
-          </button>
+            <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+              <div class="product-info">
+                <p class="product-name">{{ product.name }}</p>
+                <p class="product-price">₩ {{ '{:,}'.format(product.price) }}</p>
+              </div>
+            </a>
+            <p class="like-message"></p>
+          </div>
           {% endfor %}
+        </div>
 
-          <button
-            type="submit"
-            name="page"
-            value="{{ page + 1 }}"
-            class="pagination-button"
-            aria-label="다음 페이지"
-            {% if page == total_pages %}disabled{% endif %}
-          >
-            &gt;
-          </button>
-        </form>
-      </nav>
-      {% endif %}
+        <nav aria-label="상품 목록 페이지">
+          <form action="{{ url_for('product_list') }}" method="get" class="product-pagination">
+            {% for key, value in request.args.items(multi=True) %}
+              {% if key != 'page' %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+              {% endif %}
+            {% endfor %}
+          
+            <button
+              type="submit"
+              name="page"
+              value="{{ page - 1 }}"
+              class="pagination-button"
+              aria-label="이전 페이지"
+              {% if page == 1 %}disabled{% endif %}
+            >
+              &lt;
+            </button>
+
+            {% for number in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
+            <button
+              type="submit"
+              name="page"
+              value="{{ number }}"
+              class="pagination-number{% if number == page %} pagination-active{% endif %}"
+              {% if number == page %}aria-current="page" disabled{% endif %}
+            >
+              {{ number }}
+            </button>
+            {% endfor %}
+
+            <button
+              type="submit"
+              name="page"
+              value="{{ page + 1 }}"
+              class="pagination-button"
+              aria-label="다음 페이지"
+              {% if page == total_pages %}disabled{% endif %}
+            >
+              &gt;
+            </button>
+          </form>
+        </nav>
+        {% endif %}
+      </div>
     </div>
   </section>
 </main>
