@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request, session, abort
 from database import DBhandler
+from requests.exceptions import RequestException
 
 app = Flask(__name__)
 
@@ -97,19 +98,38 @@ def register_user():
 
 @app.route("/products")
 def product_list():
-    items = list((DB.get_items() or {}).items())
-    items_per_row = 3
-    items_per_page = 6
-    page = request.args.get("page", 0, type=int)
-    total_pages = max(1, (len(items) + items_per_page - 1) // items_per_page)
-    page = max(1, min(page, total_pages))
-    start = (page - 1) * items_per_page
-    page_items = items[start:start + items_per_page]
-    rows = []
-    for i in range(0, len(page_items), items_per_row):
-        rows.append(page_items[i:i + items_per_row])
-    return render_template('product_list.html', data=rows,
-                           page_arg=page, total_pages=total_pages, total=len(items))
+    products = []
+    list_error = None
+
+    if DB is None:
+        list_error = "DB 설정이 없어 상품 목록을 불러올 수 없습니다."
+    else:
+        try:
+            products = DB.get_products()
+        except RequestException:
+            app.logger.exception("상품 목록 조회 실패")
+            list_error = (
+                "상품 목록을 불러오지 못했습니다. "
+                "잠시 후 다시 시도해 주세요."
+            )
+
+    # 한 페이지에 상품 6개 표시
+    per_page = 6
+    total_pages = (len(products) + per_page - 1) // per_page
+
+    # 잘못된 페이지 번호는 유효한 범위로 조정
+    page = request.args.get("page", default=1, type=int)
+    page = min(max(page, 1), max(total_pages, 1))
+
+    start = (page - 1) * per_page
+
+    return render_template(
+        "product_list.html",
+        products=products[start:start + per_page],
+        page=page,
+        total_pages=total_pages,
+        list_error=list_error,
+    ), (503 if list_error else 200)
 
 @app.route("/products/detail")
 def product_detail():
@@ -148,7 +168,46 @@ def wishlist():
 
 @app.route("/giveaways")
 def giveaway_home():
-    return render_template("giveaway_home.html")
+    giveaways = []
+    list_error = None
+
+    if DB is None:
+        list_error = "DB 설정이 없어 무료나눔 목록을 불러올 수 없습니다."
+    else:
+        try:
+            giveaways = DB.get_giveaways()
+        except (RequestException, ValueError, TypeError):
+            app.logger.exception("무료나눔 목록 조회 실패")
+            list_error = (
+                "무료나눔 목록을 불러오지 못했습니다. "
+                "잠시 후 다시 시도해 주세요."
+            )
+
+    # 한 페이지에 물품 6개 표시
+    per_page = 6
+    total_pages = (len(giveaways) + per_page - 1) // per_page
+
+    # 잘못된 페이지 번호는 유효한 범위로 조정
+    page = request.args.get("page", default=1, type=int)
+    page = min(max(page, 1), max(total_pages, 1))
+
+    start = (page - 1) * per_page
+
+    # 현재 페이지 주변의 페이지 번호 표시
+    page_numbers = range(
+        max(1, page - 2),
+        min(total_pages, page + 2) + 1
+    )
+
+    return render_template(
+        "giveaway_home.html",
+        giveaways=giveaways[start:start + per_page],
+        page=page,
+        total_pages=total_pages,
+        page_numbers=page_numbers,
+        list_error=list_error,
+    ), (503 if list_error else 200)
+  
 
 @app.route("/buy_item/<name>", methods=["POST"])
 def buy_item(name):
@@ -163,6 +222,7 @@ def buy_item(name):
     if result == "already_sold":
         return jsonify({"error": "Already sold"}), 409
     return jsonify({"sold": True})
+
   
 
 if __name__ == '__main__':

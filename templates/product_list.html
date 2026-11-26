@@ -1,21 +1,17 @@
 {% extends "index.html" %}
 
-{% block section %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/product_list.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/like.css') }}">
-<!-- 헤더 -->
+{% endblock %}
+
+{% block section %}
 {% include 'common/header.html' %}
 
 <main class="page-background product-list-page">
-
-  <!-- 상품 목록 영역 -->
   <section class="product-list-section">
-
     <div class="product-list-container">
-
-      <!-- 상품 필터 -->
       <div class="product-filter">
-        <!-- 상단 필터 바 -->
         <div class="filter-toolbar">
           <button type="button" class="filter-open-button" id="filterOpenButton">
             <span>☷</span> 상세 필터
@@ -37,29 +33,21 @@
           </select>
         </div>
 
-        <!-- 상세 필터 영역 -->
         <div class="filter-detail" id="filterDetail" hidden>
           <div class="filter-group">
-            <label class="filter-label" for="minPrice">
-              가격 범위
-            </label>
+            <label class="filter-label" for="minPrice">가격 범위</label>
             <div class="price-inputs">
               <input type="number" id="minPrice" placeholder="최저 가격" value="0" min="0">
               <span>~</span>
               <input type="number" id="maxPrice" placeholder="최고 가격" min="0">
               <span>원</span>
-              <span id="priceError" class="price-error">
-                *숫자만 입력 가능합니다.
-              </span>
+              <span id="priceError" class="price-error">*숫자만 입력 가능합니다.</span>
             </div>
           </div>
 
           <div class="filter-group">
-            <label class="filter-label">
-              상품 상태
-            </label>
+            <span class="filter-label">상품 상태</span>
             <div class="filter-options">
-
               <label>
                 <input type="checkbox" name="condition" class="condition-checkbox" value="새상품" checked> 새상품
               </label>
@@ -70,9 +58,7 @@
           </div>
 
           <div class="filter-group">
-          <label class="filter-label">
-              거래 위치
-          </label>
+            <span class="filter-label">거래 위치</span>
             <div class="filter-options">
               <label>
                 <input type="checkbox" name="location" class="location-checkbox" value="ecc" checked> ECC
@@ -87,73 +73,98 @@
           </div>
 
           <div class="filter-actions">
-            <button type="button" id="filterResetButton">
-              초기화
-            </button>
-            <button type="button" id="filterApplyButton">
-              필터 적용
-            </button>
+            <button type="button" id="filterResetButton">초기화</button>
+            <button type="button" id="filterApplyButton">필터 적용</button>
           </div>
         </div>
 
-        <!-- 선택된 필터 표시 -->
         <div class="selected-filters" id="selectedFilters"></div>
-
       </div>
 
+      {% if list_error %}
+      <p class="product-list-message" role="alert">{{ list_error }}</p>
 
+      {% elif not products %}
+      <p class="product-list-message">등록된 상품이 없습니다.</p>
 
-      <!-- 상품 목록 -->
+      {% else %}
       <div class="product-list">
-        {% for row in data %}
-          {% for key, value in row %}
+        {% for product in products %}
+        <div class="product-card">
+          <div class="product-image">
+            <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+              {% if product.img_path %}
+              <img
+                src="{{ url_for('static', filename='images/' ~ product.img_path) }}"
+                alt="{{ product.name }}"
+              >
+              {% else %}
+              <span class="product-image-placeholder">이미지 없음</span>
+              {% endif %}
+            </a>
+            <button type="button" class="like-button" aria-label="{{ product.name }} 좋아요">
+              <img
+                class="like-icon"
+                src="{{ url_for('static', filename='images/heart_empty.png') }}"
+                alt=""
+              >
+            </button>
+          </div>
 
-            <div class="product-card">
-              <!-- 상품 -->
-              <div class ="product-image"> 
-                <a href="{{ url_for('view_item_detail', name=key) }}" class="product-link">
-                  <img src="{{ url_for('static', filename='images/' ~ value.img_path) }}" alt="{{ key }}">
-                </a>
-                <!-- 좋아요 버튼 -->
-                <!-- <button type="button" class="like-button" data-product-name="{{ key }}" disabled> -->
-                <button type="button" class="like-button">
-                  <img class="like-icon" src="{{ url_for('static', filename='images/heart_empty.png') }}" alt="좋아요">
-                </button>
-              </div>
-
-              <a href="/view_detail/{{ key }}" class="product-link">
-                <div class="product-info">
-                  <p class="product-name">{{ key }}</p>
-                  <p class="product-price">₩{{ value.price }}</p>
-                </div>  
-              </a>
-              <p class="like-message"></p>
+          <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+            <div class="product-info">
+              <p class="product-name">{{ product.name }}</p>
+              <p class="product-price">₩ {{ '{:,}'.format(product.price) }}</p>
             </div>
-          {% endfor %}
+          </a>
+          <p class="like-message"></p>
+        </div>
         {% endfor %}
       </div>
 
-      <!-- Pagination 영역 -->
-      <nav class="product-pagination">
-        <button type="button" class="pagination-button" data-url="{{ url_for('product_list', page=page_arg - 1) }}" onclick="location.href=this.dataset.url">
-          &lt;
-        </button>
-        {% for p in range(1, total_pages + 1) %}
-          <button type="button" class="{% if p == page_arg %}pagination-active{% endif %}" data-url="{{ url_for('product_list', page=p) }}" onclick="location.href=this.dataset.url">
-            {{ p }}
+      <nav aria-label="상품 목록 페이지">
+        <form action="{{ url_for('product_list') }}" method="get" class="product-pagination">
+          <button
+            type="submit"
+            name="page"
+            value="{{ page - 1 }}"
+            class="pagination-button"
+            aria-label="이전 페이지"
+            {% if page == 1 %}disabled{% endif %}
+          >
+            &lt;
           </button>
-        {% endfor %}
-        <button type="button" class="pagination-button" data-url="{{ url_for('product_list', page=page_arg + 1) }}" onclick="location.href=this.dataset.url">
-          &gt;
-        </button>
+
+          {% for number in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
+          <button
+            type="submit"
+            name="page"
+            value="{{ number }}"
+            class="pagination-number{% if number == page %} pagination-active{% endif %}"
+            {% if number == page %}aria-current="page" disabled{% endif %}
+          >
+            {{ number }}
+          </button>
+          {% endfor %}
+
+          <button
+            type="submit"
+            name="page"
+            value="{{ page + 1 }}"
+            class="pagination-button"
+            aria-label="다음 페이지"
+            {% if page == total_pages %}disabled{% endif %}
+          >
+            &gt;
+          </button>
+        </form>
       </nav>
+      {% endif %}
     </div>
   </section>
 </main>
 
-<!-- 푸터 -->
 {% include 'common/footer.html' %}
 <script src="{{ url_for('static', filename='js/product_like.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/product_filter.js') }}" defer></script>
-
 {% endblock section %}
