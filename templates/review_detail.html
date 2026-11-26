@@ -3,22 +3,33 @@
 {% block section %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/review_detail.css') }}">
-<script src="{{ url_for('static', filename='main.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/review_detail.js') }}" defer></script>
 
 {% include 'common/header.html' %}
+
+{% if review.img_path is string %}
+  {% set images = [review.img_path] if review.img_path else [] %}
+{% else %}
+  {% set images = review.img_path or [] %}
+{% endif %}
 
 <main class="page-background review-detail-page">
   <section class="review-detail-container">
 
     <!-- 왼쪽: 리뷰 이미지 영역 -->
-    <div class="review-detail-image">
+    <div class="review-detail-image"
+         data-base="{{ url_for('static', filename='images/') }}"
+         data-images='{{ images|tojson }}'>
 
+      {% if images %}
       <div class="image-count">
-        <span id="imageCount">1/3</span>
+        <span id="imageCount">1/{{ images|length }}</span>
       </div>
 
       <div class="review-image">
-        <img id="productMainImage" src="{{ url_for('static', filename='images/product1.jpg') }}" alt="상품 이미지">
+        <img id="productMainImage"
+             src="{{ url_for('static', filename='images/' ~ images[0]) }}"
+             alt="{{ review.product_name }}">
       </div>
 
       <!-- 이미지 이동 버튼 -->
@@ -31,6 +42,11 @@
           &#10095;
         </button>
       </div>
+      {% else %}
+      <div class="review-image">
+        <span class="review-image-placeholder">이미지 없음</span>
+      </div>
+      {% endif %}
 
     </div>
 
@@ -41,11 +57,12 @@
       <!-- 리뷰 제목 -->
       <div class="review-detail-header">
         <h1 class="review-title">
-          색감이 너무 예쁘고 필기할 때 정말 유용해요!
+          {{ review.title }}
         </h1>
 
+        <!-- 날짜 입력 형식:숫자 여덟자리 띄어쓰기 없이 입력 -->
         <p class="review-date">
-          2026.10.11 · 3일 전
+          {{ date_text }}
         </p>
       </div>
 
@@ -54,13 +71,13 @@
       <div class="review-author-info">
         <div class="review-author-item">
           <span class="review-label">작성자</span>
-          <span class="review-author">@Ewha_CS25</span>
+         <span class="review-author">{{ '@' ~ review.writer_id if review.writer_id else '익명' }}</span>
         </div>
 
         <div class="review-product-info">
           <span class="review-label">상품명</span>
           <span class="review-product-name">
-            소프트 파스텔 형광펜 4색 세트
+            {{ review.product_name }}
           </span>
         </div>
       </div>
@@ -70,15 +87,13 @@
       <div class="review-rating-section">
 
         <div class="rating-stars">
-          <span class="star star--filled"></span>
-          <span class="star star--filled"></span>
-          <span class="star star--filled"></span>
-          <span class="star star--filled"></span>
-          <span class="star star--filled"></span>
+          {% for i in range(1, 6) %}
+            <span class="star {{ 'star--filled' if i <= review.rating else '' }}"></span>
+          {% endfor %}
         </div>
 
         <div class="rating-score">
-          <span class="rating-value">5.0</span>
+          <span class="rating-value">{{ '%.1f'|format(review.rating) }}</span>
           <span class="rating-max">/ 5.0</span>
         </div>
 
@@ -87,26 +102,22 @@
 
       <!-- 리뷰 내용 -->
       <div class="review-content-section">
-
-        <p class="review-content">공부할 때 중요한 내용을 표시하려고 구매했는데 정말 만족스러워요!
-          일반적인 형광펜은 색이 너무 진해서 글씨가 잘 안 보이거나 눈이 피로할 때가 있었는데, 이 제품은 파스텔톤이라 색감이 은은하고 오래 봐도 부담스럽지 않아요.
-          필기할 때 정말 유용하게 사용하고 있습니다.
-          추천드립니다!!
-        </p>
-
+        <p class="review-content">{{ review.content }}</p>
       </div>
 
 
       <!-- 버튼 영역 -->
       <div class="review-detail-actions">
-
-        <button type="button" class="btn btn--secondary">
+        <button type="button" class="btn btn--secondary"
+                onclick="location.href='/reviews'">
           뒤로가기
         </button>
 
-        <button type="button" class="btn btn--helpful">
+        <button type="button" class="btn btn--helpful" id="helpfulButton"
+                data-url="{{ url_for('review_helpful', review_key=review.key) }}"
+                data-key="{{ review.key }}">
           <span class="helpful-text">도움이 돼요</span>
-          <span class="helpful-count">24</span>
+          <span class="helpful-count">{{ review.helpful_count }}</span>
         </button>
 
       </div>
