@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import pyrebase
 import json
 import hashlib
@@ -74,6 +74,19 @@ class DBhandler:
         if result.val() is None:
             return False
         return result.val()
+    def insert_review(self, data, img_path):
+        review_info = {
+            "writerId": data["writerId"],
+            "product_name": data["productName"],
+            "rating": int(data["rating"]),
+            "title": data["reviewTitle"],
+            "content": data["reviewContent"],
+            "img_path": img_path,
+            "created_at": datetime.now().strftime("%Y%m%d"),
+            "helpful_count": 0,
+        }
+        self.db.child("review").push(review_info)  
+        return True
 
     def buy_item(self, name, buyer_id):
         item = self.db.child("item").child(name).get().val()
