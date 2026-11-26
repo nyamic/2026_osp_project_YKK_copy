@@ -75,6 +75,14 @@ class DBhandler:
             return False
         return result.val()
 
+    def buy_item(self, name, buyer_id):
+        item = self.db.child("item").child(name).get().val()
+        if item is None:
+            return "not_found"
+        if item.get("sold"):
+            return "already_sold"
+        self.db.child("item").child(name).update({"sold": True, "buyer_id": buyer_id})
+        return "ok"
     def get_giveaways(self):
         records = self.db.child("giveaway").get().val()
 

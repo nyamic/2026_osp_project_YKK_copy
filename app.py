@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, render_template, request, session
-from requests.exceptions import RequestException
+from flask import Flask, jsonify, render_template, request, session, abort
 from database import DBhandler
 from requests.exceptions import RequestException
 
@@ -31,9 +30,18 @@ def hello():
     
 @app.route("/view_detail/<name>")
 def view_item_detail(name):
+    logged_in = session.get("id") is not None
+
+    if DB is None:
+        data = {"seller_id": "test", "address": "서울특별시 서대문구 이화여대길 52",
+                "price": 5000, "status": "새 상품", "img_path": "product1.jpg"}
+        return render_template("product_detail.html", name=name, data=data, img_path="product1.jpg", logged_in=logged_in, sold=True)
+
     data = DB.get_item_byname(str(name))
-    img_path = data.get('img_path') if data else None
-    return render_template("product_detail.html", name=name, data=data, img_path=img_path)
+    if data is None:
+        abort(404)
+    img_path = data.get("img_path")
+    return render_template("product_detail.html", name=name, data=data, img_path=img_path, logged_in=logged_in, sold=bool(data.get("sold")))
 
 @app.route('/register-items')
 def register_items():
@@ -131,6 +139,7 @@ def product_detail():
 def product_register():
     return render_template("product_register.html")
 
+
 @app.route("/reviews")
 def review_list():
     return render_template("review_list.html")
@@ -198,6 +207,22 @@ def giveaway_home():
         page_numbers=page_numbers,
         list_error=list_error,
     ), (503 if list_error else 200)
+  
+
+@app.route("/buy_item/<name>", methods=["POST"])
+def buy_item(name):
+    user_id = session.get("id")
+    if user_id is None:
+        return jsonify({"error": "Login required"}), 401
+    if DB is None:
+        return jsonify({"error": "DB unavailable"}), 503
+    result = DB.buy_item(name, user_id)
+    if result == "not_found":
+        return jsonify({"error": "Not found"}), 404
+    if result == "already_sold":
+        return jsonify({"error": "Already sold"}), 409
+    return jsonify({"sold": True})
+
   
 
 if __name__ == '__main__':
