@@ -325,3 +325,26 @@
     height: 38px;
   }
 }
+
+/* 목록이 비어 있거나 조회에 실패했을 때 */
+.product-list-page .product-list-message {
+  padding: 60px 0;
+  text-align: center;
+}
+
+/* 이미지가 등록되지 않은 상품 */
+.product-list-page .product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* 이동할 수 없는 페이지 버튼 */
+.product-list-page .product-pagination button:disabled {
+  cursor: default;
+}
+
+.product-list-page .product-pagination .pagination-button:disabled {
+  opacity: 0.45;
+}
