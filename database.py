@@ -79,6 +79,34 @@ class DBhandler:
             })
 
         return products
+    def get_wishlist_items(self, user_id):
+        # 이 사용자가 하트를 누른 기록: {상품이름: {"liked": True/False}}
+        hearts = self.db.child("heart").child(str(user_id)).get().val() or {}
+
+        liked_names = [
+            name for name, info in hearts.items()
+            if isinstance(info, dict) and info.get("liked") is True
+        ]
+        if not liked_names:
+            return []
+
+        # 상품을 하나씩 조회하지 않고 한 번에 가져와서 필터링
+        records = self.db.child("item").get().val() or {}
+
+        products = []
+        for name in sorted(liked_names):
+            item = records.get(name)
+            if not isinstance(item, dict):
+                continue  # 하트는 있는데 삭제된 상품은 건너뜀
+
+            products.append({
+                "key": name,
+                "name": name,
+                "price": int(item.get("price", 0) or 0),
+                "img_path": item.get("img_path") or "",
+            })
+
+        return products
 
     def get_items(self):
         return self.db.child("item").get().val()
@@ -109,7 +137,8 @@ class DBhandler:
             "created_at": review.get("created_at", ""),
             "helpful_count": int(review.get("helpful_count", 0) or 0),
             "writer_id": review.get("writerId", "") 
-        }   
+        } 
+      
     def update_helpful(self, review_key, delta):
         review = self.db.child("review").child(review_key).get().val()
         if not isinstance(review, dict):
@@ -118,6 +147,7 @@ class DBhandler:
         count = max(0, count)
         self.db.child("review").child(review_key).update({"helpful_count": count})
         return count
+    
     def insert_review(self, data, img_path):
         review_info = {
             "writerId": data["writerId"],
