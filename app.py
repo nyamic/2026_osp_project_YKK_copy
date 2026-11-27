@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, session, abort
+from flask import Flask, jsonify, render_template, request, session, abort, redirect, url_for
 from database import DBhandler
 from requests.exceptions import RequestException
 from datetime import datetime
@@ -14,6 +14,17 @@ DB_DISABLED_MESSAGE = """
     <script>
         alert("DB가 연결되지 않아 사용할 수 없는 기능입니다.");
         history.back();
+    </script>
+"""
+LOGIN_REQUIRED_MESSAGE = """
+    <script>
+        if (confirm("로그인이 필요한 기능입니다.\\n로그인 페이지로 이동할까요?")) {
+            location.href = "/login";
+        } else if (history.length > 1) {
+            history.back();
+        } else {
+            location.href = "/";
+        }
     </script>
 """
 
@@ -299,9 +310,44 @@ def item_like(name):
     data = request.get_json()
     saved = DB.set_heart(user_id, name, data["liked"])
     return jsonify({"liked": saved})
+
 @app.route("/wishlist")
 def wishlist():
-    return render_template("wishlist.html")
+    user_id = session.get("id")
+    if user_id is None:
+        return LOGIN_REQUIRED_MESSAGE, 401
+    wishlist_items = []
+    list_error = None
+
+    if DB is None:
+        list_error = "DB 설정이 없어 상품 목록을 불러올 수 없습니다."
+    else:
+        try:
+            wishlist_items = DB.get_wishlist_items(user_id)
+        except RequestException:
+            app.logger.exception("위시리스트 조회 실패")
+            list_error = (
+                "상품 목록을 불러오지 못했습니다. "
+                "잠시 후 다시 시도해 주세요."
+            )
+
+    # 한 페이지에 상품 6개 표시
+    per_page = 6
+    total_pages = (len(wishlist_items) + per_page - 1) // per_page
+
+    # 잘못된 페이지 번호는 유효한 범위로 조정
+    page = request.args.get("page", default=1, type=int)
+    page = min(max(page, 1), max(total_pages, 1))
+
+    start = (page - 1) * per_page
+
+    return render_template(
+        "wishlist.html",
+        wishlist_items=wishlist_items[start:start + per_page],
+        page=page,
+        total_pages=total_pages,
+        list_error=list_error,
+    ), (503 if list_error else 200)
 
 @app.route("/giveaways")
 def giveaway_home():

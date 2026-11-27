@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상품 목록 | EWHA MARKET</title>
+  <title>위시리스트 | EWHA MARKET</title>
   <link rel="stylesheet" href="/static/css/wishlist.css" />
 </head>
 <body>
@@ -18,109 +18,79 @@
     <img class="deco deco-right-wave" src="images/deco-wave.png" alt="" />
 
     <div class="container">
-      <!-- 필터 -->
-      <form class="filter-bar" id="filterForm">
-        <select name="sort" aria-label="정렬">
-          <option value="" selected disabled hidden>정렬</option>
-          <option value="latest">최신순</option>
-          <option value="price-asc">낮은 가격순</option>
-          <option value="price-desc">높은 가격순</option>
-        </select>
+      {% if list_error %}
+        <div class="wishlist-empty">
+        <p class="wishlist-empty-desc ">{{ list_error }}</p>
+      </div>
+      {% elif wishlist_items %}
+      <div class="wishlist">
+        {% for product in wishlist_items %}
+        <div class="product-card">
+          <div class="product-image">
+            <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+              {% if product.img_path %}
+              <img
+                src="{{ url_for('static', filename='images/' ~ product.img_path) }}"
+                alt="{{ product.name }}"
+              >
+              {% else %}
+              <span class="product-image-placeholder">이미지 없음</span>
+              {% endif %}
+            </a>
+            <button type="button" class="like-button" data-name="{{ product.key }}" aria-label="{{ product.name }} 위시리스트에서 제거">
+              <img
+                class="like-icon"
+                src="{{ url_for('static', filename='images/heart_filled.png') }}"
+                alt=""
+              >
+            </button>
+          </div>
 
-        <select name="category" aria-label="카테고리">
-          <option value="" selected disabled hidden>카테고리</option>
-          <option value="pen">필기구</option>
-          <option value="note">노트/종이</option>
-          <option value="office">사무용품</option>
-          <option value="etc">기타</option>
-        </select>
-
-        <select name="price" aria-label="가격">
-          <option value="" selected disabled hidden>가격</option>
-          <option value="0-1000">~ 1,000원</option>
-          <option value="1000-5000">1,000 ~ 5,000원</option>
-          <option value="5000-10000">5,000 ~ 10,000원</option>
-          <option value="10000-">10,000원 이상</option>
-        </select>
-
-        <select name="status" aria-label="상태">
-          <option value="" selected disabled hidden>상태</option>
-          <option value="new">새 상품</option>
-          <option value="used">중고</option>
-        </select>
-
-        <select name="location" aria-label="거래위치">
-          <option value="" selected disabled hidden>거래위치</option>
-          <option value="campus">공대</option>
-          <option value="station">학관</option>
-          <option value="delivery">ECC</option>
-        </select>
-      </form>
-
-      <!-- 상품 목록 -->
-      <ul class="product-grid">
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/chikawa.png" alt="먼작귀 치이카와 샤프" /></div>
-            <p class="name">먼작귀 치이카와 샤프</p>
-            <p class="price">₩ 10,500</p>
+          <a href="{{ url_for('view_item_detail', name=product.key) }}" class="product-link">
+            <div class="product-info">
+              <p class="product-name">{{ product.name }}</p>
+              <p class="product-price">₩ {{ '{:,}'.format(product.price) }}</p>
+            </div>
           </a>
-        </li>
-
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/staedler.png" alt="스테들러 슬라이딩 지우개" /></div>
-            <p class="name">스테들러 슬라이딩 지우개</p>
-            <p class="price">₩ 1,650</p>
-          </a>
-        </li>
-
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/dokdo.png" alt="독도 연필세트 B 8자루입" /></div>
-            <p class="name">독도 연필세트 B 8자루입</p>
-            <p class="price">₩ 2,000</p>
-          </a>
-        </li>
-
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/product1.jpg" alt="소프트 파스텔 형광펜 4색 세트" /></div>
-            <p class="name">소프트 파스텔 형광펜 4색 세트</p>
-            <p class="price">₩ 5,000</p>
-          </a>
-        </li>
-
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/springnote.png" alt="모닝글로리 대용량 무지 연습장" /></div>
-            <p class="name">모닝글로리 대용량 무지 연습장</p>
-            <p class="price">₩ 2,000</p>
-          </a>
-        </li>
-
-        <li class="product-card">
-          <a href="#">
-            <div class="thumb"><img src="/static/images/earthcolorpen.png" alt="[지구과학] 슈퍼색연필 12색" /></div>
-            <p class="name">[지구과학] 슈퍼색연필 12색</p>
-            <p class="price">₩ 3,000</p>
-          </a>
-        </li>
-      </ul>
+          <p class="like-message"></p>
+        </div>
+        {% endfor %}
+      </div>
 
       <!-- 페이지네이션 -->
-      <nav class="pagination" aria-label="페이지 이동">
-        <a href="#" class="page-btn arrow" aria-label="이전">&lt;</a>
-        <a href="#" class="page-btn active" aria-current="page">1</a>
-        <a href="#" class="page-btn">2</a>
-        <a href="#" class="page-btn">3</a>
-        <a href="#" class="page-btn arrow" aria-label="다음">&gt;</a>
+            {% if total_pages > 1 %}
+      <nav class="pagination" aria-label="위시리스트 페이지 이동">
+        {% if page > 1 %}
+        <a href="{{ url_for('wishlist', page=page - 1) }}" class="page-btn arrow" aria-label="이전">&lt;</a>
+        {% endif %}
+
+        {% for number in range([1, page - 2]|max, [total_pages, page + 2]|min + 1) %}
+        <a
+          href="{{ url_for('wishlist', page=number) }}"
+          class="page-btn{% if number == page %} active{% endif %}"
+          {% if number == page %}aria-current="page"{% endif %}
+        >{{ number }}</a>
+        {% endfor %}
+
+        {% if page < total_pages %}
+        <a href="{{ url_for('wishlist', page=page + 1) }}" class="page-btn arrow" aria-label="다음">&gt;</a>
+        {% endif %}
       </nav>
+      {% endif %}
+
+      {% else %}
+      <div class="wishlist-empty">
+      <p class="wishlist-empty-title">위시리스트가 비어 있어요</p>
+      <p class="wishlist-empty-desc">마음에 드는 상품에 하트를 눌러 위시리스트를 채워보세요!</p>
+      <a href="{{ url_for('product_list') }}" class="wishlist-empty-btn">상품 보러 가기</a>
+    </div> 
+  {% endif %}
+
     </div>
   </main>
-
+  {% include 'common/footer.html' %}
+  <script src="{{ url_for('static', filename='js/product_like.js') }}" defer></script>
 </body>
 
-{% include 'common/footer.html' %}
 
 </html>
